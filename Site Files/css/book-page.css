@@ -1,0 +1,80 @@
+.book-info {
+    overflow: auto;
+    margin-left: 48px;
+    margin-left: 48px;
+}
+
+.book-img {
+    float: right;
+    width: 256px;
+    height: auto;
+    margin-right: 32px;
+    margin-left: 32px;
+    margin-bottom: 32px;
+    margin-top: 16px;
+}
+
+.buy-section-container {
+    margin-left: 32px;
+    margin-right: 32px;
+    margin-bottom: 8px;
+    border-top: ridge;
+    border-left-style: ridge;
+    border-right-style: ridge;
+    border-bottom: ridge;
+    border-color: #c4b000;
+}
+
+.buy-section {
+    right: 0;
+    width: 100%;
+    overflow: auto;
+    position: relative;
+}
+
+.buy-section h1 {
+    text-align: center;
+}
+
+.buy-list {
+    list-style-type: none;
+    margin: 0 auto;
+    height: 100%;
+    text-align: right;
+    background-position: 100%;
+    display: table;
+}
+
+.buy-list-item {
+    float: left;
+}
+
+.buy-list-type {
+    display: block;
+    color: blue;
+    width: 232px;
+    padding-right: 8px;
+    padding-left: 8px;
+    font-size: 22px;
+    margin-top: 4px;
+    margin-bottom: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.buy-list-item a {
+    display: block;
+    border-color: #9b8b00;
+    background-color: #d6ce82;
+    border-style: double;
+    padding-right: 8px;
+    padding-left: 8px;
+    margin-top: 0px;
+    margin-right: 8px;
+    margin-bottom: 16px;
+    font-size: 22px;
+    font-weight: normal;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    text-decoration: none;
+}

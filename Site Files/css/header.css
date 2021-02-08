@@ -1,0 +1,94 @@
+#masthead{
+    box-shadow: 3px 5px 5px grey;
+    max-width: 1024px;
+}
+
+#mainhead {
+    background: #ffffff;
+    min-height: 128px;
+    overflow: hidden;
+    border-top: 4px ridge;
+    border-left-style: ridge;
+    border-right-style: ridge;
+    border-color: #c4b000;
+}
+
+
+/* LOGO AREA -----------------------------------------------------*/
+#site-branding {
+    margin: 0;
+    height: 100%;
+}
+
+#logo-container {
+    height: 160px;
+    width: auto;
+    padding-left: 16px;
+}
+
+#custom-logo {
+    height: 100%;
+    width: auto;
+}
+
+.header-block {
+    float: left;
+}
+
+#main-title {
+    font-size: 70px;
+    font-style: oblique;
+    font-weight: bold;
+    color: #9b8b00;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    padding-left: 32px;
+    align-self: center;
+    height: 70px;
+    line-height: 71px;
+    display: inline-block;
+    padding-top: 48px;
+    padding-bottom: 0px;
+}
+
+/* NAV AREA -----------------------------------------------------*/
+#site-navigation {
+    right: 0;
+    min-height: 44px;
+    border-top-style: double;
+    border-bottom-style: double;
+    border-left-style: double;
+    border-right-style: ridge;
+    border-color: #aaaaaa;
+    background: #333333;
+    overflow: auto;
+}
+
+#menu-header-menu {
+    list-style-type: none;
+    margin: 0;
+    height: 100%;
+    text-align: right;
+    background-position: 100%;
+    margin-right: 32px;
+}
+
+.menu-header-item {
+    height: 100%;
+    float: left;
+}
+
+.menu-header-item a {
+    height: 100%;
+    display: block;
+    color: #ffffff;
+    padding-top: 10px;
+    margin-right: 32px;
+    margin-left: 32px;
+    font-size: 20px;
+    font-weight: normal;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    text-decoration: none;
+}
+

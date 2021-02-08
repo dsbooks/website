@@ -1,0 +1,39 @@
+.front-page-section {
+    overflow: auto;
+}
+
+#main-book-info {
+    margin-left: 48px;
+    margin-left: 48px;
+}
+
+#main-bio-info {
+    margin-left: 48px;
+    margin-right: 48px;
+}
+
+#main-book-img {
+    float: right;
+    width: 220px;
+    height: auto;
+    margin-right: 64px;
+    margin-left: 96px;
+    margin-bottom: 32px;
+    margin-top: 16px;
+    box-shadow: 0px 0px 5px grey;
+}
+
+#main-bio-img {
+    float: left;
+    width: 200px;
+    height: auto;
+    margin-right: 64px;
+    margin-bottom: 32px;
+    margin-top: px;
+}
+
+/*
+#more-about-me{
+    text-decoration: none;
+}
+*/

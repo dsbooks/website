@@ -1,0 +1,74 @@
+#mainhead {
+    background: #ffffff;
+    min-height: 128px;
+    overflow: hidden;
+    border-top: 4px ridge;
+    border-left-style: ridge;
+    border-right-style: ridge;
+    border-bottom: 4px ridge;
+    border-color: #c4b000;
+    box-shadow: 3px 5px 5px grey;
+    max-width: 1024px;
+}
+
+
+/* LOGO AREA -----------------------------------------------------*/
+#site-branding {
+    margin: 0;
+    height: 100%;
+}
+
+#logo-container {
+    height: 160px;
+    width: auto;
+    padding-left: 16px;
+}
+
+#custom-logo {
+    height: 100%;
+    width: auto;
+}
+
+.header-block {
+    float: left;
+}
+
+#main-title {
+    font-size: 70px;
+    font-style: oblique;
+    font-weight: bold;
+    color: #9b8b00;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    padding-left: 32px;
+    align-self: center;
+    height: 70px;
+    line-height: 71px;
+    display: inline-block;
+    padding-top: 48px;
+    padding-bottom: 0px;
+}
+
+/* Main area */
+#main-content-container {
+    max-width: 1024px;
+    overflow: auto;
+}
+
+#lander-header {
+    margin-left: 48px;
+    margin-right: 48px;
+    text-align: center;
+}
+
+#lander-text{
+    font-size: 17px;
+    margin-left: 48px;
+    margin-right: 48px;
+}
+
+#lander-footer{
+    margin-left: 48px;
+    margin-right: 48px;
+    text-align: center;
+}
