@@ -28,10 +28,9 @@
 .buy-section {
     right: 2px;
     left: 0px;
-    
     overflow: auto;
     position: relative;
-    background: #ffffff;
+    background: #f8f8f3;
     border: 1px solid #cc5dff;
 }
 
