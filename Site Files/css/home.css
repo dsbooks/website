@@ -23,7 +23,7 @@
 } */
 
 
-#main-book-img {
+.main-book-img {
     float: right;
     width: 220px;
     height: auto;
@@ -35,7 +35,6 @@
     border-left-style: ridge;
     border-right-style: ridge;
     border-bottom: 4px ridge;
-    border-color: #c4b000;
     box-shadow: 0px 0px 10px grey;
 }
 

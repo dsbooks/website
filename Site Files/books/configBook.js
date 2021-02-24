@@ -1,3 +1,6 @@
+//////////////////////////////////////////////////////////////
+//////////////////// MAIN FUNCTIONS //////////////////////////
+//////////////////////////////////////////////////////////////
 
 // use to build book pages
 function buildBook(id, series, title){
@@ -65,6 +68,44 @@ function buildBook(id, series, title){
     });
 }
 
+// use to build the home page
+function setupHome(id, series, title){
+    $.getJSON("/books/books.json", function(json){
+
+        // pull out the relevent book data
+        let seriesNum = findSeriesNum(json, series);
+        if (seriesNum === -1){
+            $(id).html("<h1> BOOK INFO NOT FOUND </h1>");
+            return;
+        }
+        let titleNum = findTitleNum(json.seriesList[seriesNum], title);
+        if (titleNum === -1){
+            $(id).html("<h1> BOOK INFO NOT FOUND </h1>");
+            return;
+        }
+        let data = json.seriesList[seriesNum].bookList[titleNum];
+
+        //////////////////////////////////////////////////
+        //// the main book info section //////////////////
+        //////////////////////////////////////////////////
+        
+        // add image and title in this h1
+        createTitle(data, id, true, "book-title", "main-book-img");
+
+        // add tag line
+        addTagLine(data, id);
+
+        // add the quickblurb
+        addQuickBlurb(data, id);
+        
+        // add "read more" link
+        addReadMore(data, id);
+        
+    });
+}
+//////////////////////////////////////////////////////////////
+////////////////// HELPER FUNCTIONS //////////////////////////
+//////////////////////////////////////////////////////////////
 // find series number from series name
 function findSeriesNum(data, name){
     for (var i = 0; i < data.seriesList.length; i++){
@@ -91,10 +132,14 @@ function createTitle(data, where, flat, titleClass, imageClass){
                               .text(data.title)
                               .css('color', data.titleColor)
                               .css('text-shadow', "0px 0px 4px " + data.titleShadow);
-        $("<img>").addClass(imageClass)
-                  .attr('src', '/img/' + (flat ? data.imageFileFlat : data.imageFile3D))
-                  .appendTo($bookTitle);
-        $bookTitle.appendTo(where);
+    let $img = $("<img>").addClass(imageClass)
+                .attr('src', '/img/' + (flat ? data.imageFileFlat : data.imageFile3D));
+
+    if (flat){
+        $img.css('border-color', data.borderColor);
+    }
+    $img.appendTo($bookTitle);
+    $bookTitle.appendTo(where);
 }
 
 // add a tag line
@@ -126,4 +171,20 @@ function tryMakingLink(data, where, abbrev, text){
                 .text(text)
                 .appendTo($li);
     }
+}
+
+// create a quick blurb
+function addQuickBlurb(data, where){
+    $("<p>").addClass("description-text")
+            .text(data.quickBlurb)
+            .appendTo(where);
+}
+
+// create a "read more" link
+function addReadMore(data, where){
+    let $p = $("<p>")
+    $p.appendTo(where);
+    $("<a>").attr("href", "/books/" + data.htmlFile)
+            .text("READ MORE")
+            .appendTo($p);
 }
