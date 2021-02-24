@@ -9,7 +9,7 @@ Once more books are written, create the CSS for the books page
     margin-right: 10px;
     margin-left: 64px;
     margin-bottom: 32px;
-    margin-top: 16px;
+    margin-top: 10px;
     border-top: 4px ridge;
     border-left-style: ridge;
     border-right-style: ridge;
@@ -17,9 +17,19 @@ Once more books are written, create the CSS for the books page
     box-shadow: 0px 0px 10px grey;
 }
 
-.book-info {
-    overflow: auto;
-    margin-left: 48px;
-    margin-right: 48px;
+.book-list-img-rev {
+    float: left;
+    width: 220px;
+    height: auto;
+    margin-right: 64px;
+    margin-left: 10px;
+    margin-bottom: 32px;
+    margin-top: 10px;
+    border-top: 4px ridge;
+    border-left-style: ridge;
+    border-right-style: ridge;
+    border-bottom: 4px ridge;
+    box-shadow: 0px 0px 10px grey;
 }
+
 

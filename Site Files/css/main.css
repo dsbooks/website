@@ -41,6 +41,12 @@ body {
     font-size: 24px;
 }
 
+.book-info {
+    overflow: auto;
+    margin-left: 48px;
+    margin-right: 48px;
+}
+
 .read-more-link{
     border-color: #9b8b00;
     background-color: #d6ce82;

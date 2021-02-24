@@ -64,7 +64,7 @@ function buildBook(id, series, title){
         tryMakingLink(data, $buyList, "amazon", "Amazon");
         tryMakingLink(data, $buyList, "bn", "Barnes&Noble");
         tryMakingLink(data, $buyList, "bam", "Books-A-Million");
-        tryMakingLink(data, $buyList, "indie", "Indies");
+        tryMakingLink(data, $buyList, "indie", "IndieBound");
     });
 }
 
@@ -104,7 +104,7 @@ function setupHome(id, series, title){
     });
 }
 
-// use to build the book list page
+// use to build the standard book list page
 function setupBookList(id, series){
     $.getJSON("/books/books.json", function(json){
 
@@ -127,7 +127,7 @@ function setupBookList(id, series){
             $div.appendTo(id);
 
             // add image and title in this h1
-            createTitle(bookData, $div, true, "book-title", "book-list-img");
+            createTitle(bookData, $div, true, "book-title", "book-img");
 
             // add tag line
             addTagLine(bookData, $div);
@@ -135,6 +135,54 @@ function setupBookList(id, series){
             // add the quickblurb
             addQuickBlurb(bookData, $div);
             
+            // add "read more" link
+            addReadMore(bookData, $div);
+
+            // add separator
+            if (i !== data.bookList.length - 1){
+                $("<hr>").appendTo(id);
+            }
+        }
+        
+    });
+}
+
+// use to build the alternating book list page
+function setupBookListAlt(id, series){
+    $.getJSON("/books/books.json", function(json){
+
+        // pull out the relevent series data
+        let seriesNum = findSeriesNum(json, series);
+        if (seriesNum === -1){
+            $(id).html("<h1> SERIES INFO NOT FOUND </h1>");
+            return;
+        }
+        
+        let data = json.seriesList[seriesNum];
+
+        //////////////////////////////////////////////////
+        ///// loop over all books in series //////////////
+        //////////////////////////////////////////////////
+        
+        for (var i = 0; i < data.bookList.length; i++){
+            let bookData = data.bookList[i];
+            let $div = $("<div>").addClass("book-info");
+            $div.appendTo(id);
+
+            // add image and title in this h1
+            if (i % 2){
+                // create reverse listing
+                createTitle(bookData, $div, true, "book-title", "book-list-img-rev");
+            }
+            else {
+                // create standard listing
+                createTitle(bookData, $div, true, "book-title", "book-list-img");
+            }
+
+            // add tag line
+            addTagLine(bookData, $div);
+            // add the quickblurb
+            addQuickBlurb(bookData, $div);
             // add "read more" link
             addReadMore(bookData, $div);
 
