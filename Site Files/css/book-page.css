@@ -1,7 +1,7 @@
 .book-info {
     overflow: auto;
     margin-left: 48px;
-    margin-left: 48px;
+    margin-right: 48px;
 }
 
 .book-img {
@@ -26,10 +26,13 @@
 }
 
 .buy-section {
-    right: 0;
-    width: 100%;
+    right: 2px;
+    left: 0px;
+    
     overflow: auto;
     position: relative;
+    background: #ffffff;
+    border: 1px solid #cc5dff;
 }
 
 .buy-section h1 {
@@ -77,4 +80,9 @@
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     text-decoration: none;
+}
+
+.preblurb {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px;
 }

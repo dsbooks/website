@@ -4,13 +4,24 @@
 
 #main-book-info {
     margin-left: 48px;
-    margin-left: 48px;
+    margin-right: 48px;
 }
 
 #main-bio-info {
     margin-left: 48px;
     margin-right: 48px;
 }
+
+/* #main-book-img {
+    float: right;
+    width: 256px;
+    height: auto;
+    margin-right: 32px;
+    margin-left: 32px;
+    margin-bottom: 32px;
+    margin-top: 0px;
+} */
+
 
 #main-book-img {
     float: right;
@@ -20,8 +31,14 @@
     margin-left: 96px;
     margin-bottom: 32px;
     margin-top: 16px;
-    box-shadow: 0px 0px 5px grey;
+    border-top: 4px ridge;
+    border-left-style: ridge;
+    border-right-style: ridge;
+    border-bottom: 4px ridge;
+    border-color: #c4b000;
+    box-shadow: 0px 0px 10px grey;
 }
+
 
 #main-bio-img {
     float: left;
@@ -29,7 +46,13 @@
     height: auto;
     margin-right: 64px;
     margin-bottom: 32px;
-    margin-top: px;
+    margin-top: 0px;
+    border-top: 4px ridge;
+    border-left-style: ridge;
+    border-right-style: ridge;
+    border-bottom: 4px ridge;
+    border-color: #c4b000;
+    box-shadow: 0px 0px 8px grey;
 }
 
 /*

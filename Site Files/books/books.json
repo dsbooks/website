@@ -1,0 +1,49 @@
+{
+    "seriesList": [
+        {
+            "title": "Radiant",
+            "bookList": [
+                {
+                    "title": "The Heart of the Radiant",
+                    "tagLine": "A Battle for a Dying World",
+                    "imageFileFlat": "heart-ebook.jpg",
+                    "imageFile3D": "heart-3d.png",
+                    "htmlFile": "thotr.html",
+                    "quickBlurb": "After his home city is decimated by the Undead King Dezeroth and his hordes, aspiring cadet Jax Ruthoree finds himself traveling with the last surviving members of the Light Guard. Outnumbered and on the run, the group has but one goal: to deliver the Heart of the Radiant to safety before Dezeroth catches them and unleashes terror upon the world.",
+                    "preBlurb": "In this first book of the Radiant series, an ancient king seeks the power of the fabled Dark Radiant to rid the world of his Divine oppressors and wreak vengeance upon the mortals who would dare to serve them.",
+                    "fullBlurb": [
+                        "After his home city is decimated by the Undead King Dezeroth and his hordes, aspiring cadet Jax Ruthoree finds himself traveling with the last surviving members of the Light Guard. Outnumbered and on the run, the group has but one goal: to deliver the Heart of the Radiant to safety before Dezeroth catches them and unleashes terror upon the world.",
+                        "Now, the group must journey through the hostile environments of Doxla braving monsters, boiling lakes, deadly forests, and more, all while Dezeroth's forces hunt them down relentlessly. Little do any of them realize the true stakes at hand, or what heavy price success may yet cost them in the end."
+                    ],
+                    "amazonLink": "https://www.amazon.com/dp/B0852G351D",
+                    "bnLink": "https://www.barnesandnoble.com/w/the-heart-of-the-radiant-daniel-kogler/1136542733?ean=9781952033018",
+                    "bamLink": "https://www.booksamillion.com/p/Heart-Radiant/Daniel-Kogler/9781952033018?id=7826567071795",
+                    "indieLink": "https://www.indiebound.org/book/9781952033018",
+                    "titleColor": "#ffffb8",
+                    "titleShadow": "#333300"
+                },
+                {
+                    "title": "The Mind of the Radiant",
+                    "tagLine": "The Battle for Doxla Continues",
+                    "imageFileFlat": "mind-ebook.jpg",
+                    "imageFile3D": "mind-3d.png",
+                    "htmlFile": "tmotr.html",
+                    "quickBlurb": "Five years after the fall of Lord Grandis, Birdie finds her new home under attack by soldiers with magic of impossible strength. Sent by the enigmatic Lux Rosa, these soldiers have but one goal: to destroy Birdie and all that she holds dear. To what end? That remains to be seen.",
+                    "preBlurb": "In this exciting sequel to The Heart of the Radiant, a mysterious new threat arises in Doxla... a threat whose power rises as the world plunges ever further into decay.",
+                    "fullBlurb": [
+                        "Five years after the fall of Lord Grandis, Birdie finds her new home under attack by soldiers with magic of impossible strength. Sent by the enigmatic Lux Rosa, these soldiers have but one goal: to destroy Birdie and all that she holds dear.",
+                        "Forced to confront the secrets of both her past and her ruthless \"othermind,\" Birdie must journey to the City of the Divine to seek the aid of Syrus, the last remaining being with abilities remotely comparable to Lux Rosa's.",
+                        "Time is not on Birdie's side, however. With every passing day, Lux Rosa's grip on the world grows ever closer to absolute. Even if Birdie does reach Syrus, will that be enough to stand against a foe with power over magic itself?",
+                        "More importantly, how much is Birdie willing to sacrifice for a victory that may cost more than her defeat? She will have to decide this soon, for the showdown between light and darkness rapidly approaches."
+                    ],
+                    "amazonLink": "https://www.amazon.com/dp/B08X3W1WL1",
+                    "bnLink": "https://www.barnesandnoble.com/w/the-mind-of-the-radiant-daniel-kogler/1138873570?ean=9781952033032",
+                    "bamLink": null,
+                    "indieLink": null,
+                    "titleColor": "#eeeeee",
+                    "titleShadow": "#000000"
+                }
+            ]
+        }
+    ]
+}

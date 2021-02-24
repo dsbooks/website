@@ -11,5 +11,10 @@
     margin-left: 96px;
     margin-bottom: 16px;
     margin-top: 16px;
-    box-shadow: 0px 0px 5px grey;
+    border-top: 4px ridge;
+    border-left-style: ridge;
+    border-right-style: ridge;
+    border-bottom: 4px ridge;
+    border-color: #c4b000;
+    box-shadow: 0px 0px 8px grey;
 }
