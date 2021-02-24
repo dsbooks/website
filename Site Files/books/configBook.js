@@ -86,7 +86,7 @@ function setupHome(id, series, title){
         let data = json.seriesList[seriesNum].bookList[titleNum];
 
         //////////////////////////////////////////////////
-        //// the main book info section //////////////////
+        ///////// configure the section //////////////////
         //////////////////////////////////////////////////
         
         // add image and title in this h1
@@ -100,6 +100,49 @@ function setupHome(id, series, title){
         
         // add "read more" link
         addReadMore(data, id);
+        
+    });
+}
+
+// use to build the book list page
+function setupBookList(id, series){
+    $.getJSON("/books/books.json", function(json){
+
+        // pull out the relevent series data
+        let seriesNum = findSeriesNum(json, series);
+        if (seriesNum === -1){
+            $(id).html("<h1> SERIES INFO NOT FOUND </h1>");
+            return;
+        }
+        
+        let data = json.seriesList[seriesNum];
+
+        //////////////////////////////////////////////////
+        ///// loop over all books in series //////////////
+        //////////////////////////////////////////////////
+        
+        for (var i = 0; i < data.bookList.length; i++){
+            let bookData = data.bookList[i];
+            let $div = $("<div>").addClass("book-info");
+            $div.appendTo(id);
+
+            // add image and title in this h1
+            createTitle(bookData, $div, true, "book-title", "book-list-img");
+
+            // add tag line
+            addTagLine(bookData, $div);
+
+            // add the quickblurb
+            addQuickBlurb(bookData, $div);
+            
+            // add "read more" link
+            addReadMore(bookData, $div);
+
+            // add separator
+            if (i !== data.bookList.length - 1){
+                $("<hr>").appendTo(id);
+            }
+        }
         
     });
 }
@@ -135,6 +178,7 @@ function createTitle(data, where, flat, titleClass, imageClass){
     let $img = $("<img>").addClass(imageClass)
                 .attr('src', '/img/' + (flat ? data.imageFileFlat : data.imageFile3D));
 
+    // add a border if it is a flat image
     if (flat){
         $img.css('border-color', data.borderColor);
     }

@@ -19,9 +19,9 @@
                     "bnLink": "https://www.barnesandnoble.com/w/the-heart-of-the-radiant-daniel-kogler/1136542733?ean=9781952033018",
                     "bamLink": "https://www.booksamillion.com/p/Heart-Radiant/Daniel-Kogler/9781952033018?id=7826567071795",
                     "indieLink": "https://www.indiebound.org/book/9781952033018",
-                    "titleColor": "#ffffb8",
-                    "titleShadow": "#333300",
-                    "borderColor": "c4b000"
+                    "titleColor": "#fefeee",
+                    "titleShadow": "#101000",
+                    "borderColor": "#c8c8b0"
                 },
                 {
                     "title": "The Mind of the Radiant",
@@ -43,7 +43,7 @@
                     "indieLink": null,
                     "titleColor": "#eeeeee",
                     "titleShadow": "#000000",
-                    "borderColor": "c0c0c0"
+                    "borderColor": "#c0c0c0"
                 }
             ]
         }
