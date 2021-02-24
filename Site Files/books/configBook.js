@@ -185,6 +185,7 @@ function addReadMore(data, where){
     let $p = $("<p>")
     $p.appendTo(where);
     $("<a>").attr("href", "/books/" + data.htmlFile)
+            .addClass("read-more-link")
             .text("READ MORE")
             .appendTo($p);
 }
