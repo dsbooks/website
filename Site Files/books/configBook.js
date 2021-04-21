@@ -40,11 +40,15 @@ function buildBook(id, series, title){
         generateDescription(data, $bookInfo);
 
         //////////////////////////////////////////////////
+        //// links to the rest of the series /////////////
+        //////////////////////////////////////////////////
+        tryMakingSeriesLinks(json.seriesList[seriesNum].bookList, titleNum, id);
+
+        //////////////////////////////////////////////////
         //// the book purchase link section //////////////
         //////////////////////////////////////////////////
         
         // padding
-        $("<br>").appendTo(id);
         $("<br>").appendTo(id);
 
         // create the container
@@ -55,7 +59,7 @@ function buildBook(id, series, title){
         let $buySection = $("<div>").addClass("buy-section");
         $buySection.appendTo($buyContainer);
 
-        $("<h1>").text("Purchase Links").appendTo($buySection);
+        $("<h1>").text("Purchase Links for This Book").appendTo($buySection);
 
         // create the purchase link list
         let $buyList = $("<ul>").addClass("buy-list");
@@ -65,6 +69,8 @@ function buildBook(id, series, title){
         tryMakingLink(data, $buyList, "bn", "Barnes&Noble");
         tryMakingLink(data, $buyList, "bam", "Books-A-Million");
         tryMakingLink(data, $buyList, "indie", "IndieBound");
+        tryMakingLink(data, $buyList, "kobo", "Kobo");
+
     });
 }
 
@@ -250,6 +256,34 @@ function generateDescription(data, where){
         $("<p>").text(data.fullBlurb[i]).appendTo($base);
     }
     $base.appendTo(where);
+}
+
+// attempt to make links to the rest of a series (do nothing if only one book in series)
+function tryMakingSeriesLinks(bookList, titleNum, where){
+    if (bookList.length > 1){
+        $("<hr>").addClass('series-hr').appendTo(where);
+
+        let seriesContainer = $('<div>').addClass('series-link-container');
+        seriesContainer.appendTo(where);
+        $("<p>").addClass("series-link-header").text("Also in this series").appendTo(seriesContainer);
+
+        let seriesSection = $("<div>").addClass('series-link-section')
+        seriesSection.appendTo(seriesContainer);
+        for (let i = 0; i < bookList.length; i++){
+            if (i !== titleNum){
+                makeSeriesLink(bookList[i], i, seriesSection);
+            }
+        }
+    }
+}
+
+// add in a link to another book in a series
+function makeSeriesLink(data, number, where){
+    $("<a>").attr("href", "/books/" + data.htmlFile)
+    .addClass("series-link")
+    .html("<img src=/img/" + data.imageFileFlat + ">" + 
+          "<p class=\"book-number\"> Book " + (number+1) + "</p>")
+    .appendTo(where);
 }
 
 // attempt to make a purchase link (do nothing if it fails)
