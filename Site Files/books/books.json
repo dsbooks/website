@@ -1,7 +1,16 @@
 {
     "seriesList": [
         {
-            "title": "Radiant",
+            "title": "The Radiant Series",
+            "tagLine": "The Story of a \"Forgotten\" World with a Forbidden Purpose",
+            "quickBlurb": "Lies. Betrayal. War. These are the secret tenets upon which the world of Doxla was created. These are the open tenets upon which it will die. When Jax and his sister, Ev, find themselves thrown into the conflict fed by these tenets, what will they do? Will they fight against the destiny of their world until the bitter end, or will they ultimately embrace its dark purpose as the lesser of two evils?",
+            "preBlurb": "Lies. Betrayal. War. These are the secret tenets upon which the world of Doxla was created. These are the open tenets upon which it will die. When Jax and his sister, Ev, find themselves thrown into the conflict fed by these tenets, what will they do? Will they fight against the destiny of their world until the bitter end, or will they ultimately embrace its dark purpose as the lesser of two evils?",
+            "fullBlurb": [
+                "The Radiant series follows the lives of Jax, his sister, Ev, and the hunter, Birdie, as well as their friends and family, as they journey across and beyond the world of Doxla to defend themselves and their homes against those who would seek to destroy or enslave them. As they travel, they will slowly uncover the secrets behind their world's existence, as well as the true nature of the beings known as Divine, including the all-powerful Masters.",
+                "The first book centers around Jax and his journey to protect the titular Heart of the Radiant from the immortal hordes of the Undead King, Dezeroth. Failure means the return of the Dark Radiant, which would upend the current world order.",
+                "The second book follows Birdie as she struggles against the Radiant, Lux Rosa, while reality itself slowly begins to fall apart. When forced to confront her own origins, the truth of the Divine and their nature is revealed, and she must decide if perhaps Lux Rosa's power is truly Doxla's best hope for survival.",
+                "The third and final book follows Ev as she learns the true reason for Doxla's creation by the Masters, but she also sees first-hand the true devastation left in their wake. She will find herself torn toward both sides of the final battle that will decide the fate of not only everyone she cares about, but countless other worlds touched by the Masters' machinations as well."
+            ],
             "bookList": [
                 {
                     "title": "The Heart of the Radiant",
@@ -26,7 +35,7 @@
                 },
                 {
                     "title": "The Mind of the Radiant",
-                    "tagLine": "The Battle for Doxla Continues",
+                    "tagLine": "The Veil Begins to Fall",
                     "imageFileFlat": "mind-ebook.jpg",
                     "imageFile3D": "mind-3d.png",
                     "htmlFile": "tmotr.html",
