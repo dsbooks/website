@@ -1,60 +1,82 @@
 {
-    "seriesList": [
+  "seriesList": [
+    {
+      "title": "Radiant",
+      "tagLine": "The Story of a \"Forgotten\" World with a Forbidden Purpose",
+      "quickBlurb": "Lies. Betrayal. War. These are the secret tenets upon which the world of Doxla was created. These are the open tenets upon which it will die. When Jax and his sister, Ev, find themselves thrown into the conflict fed by these foul beginnings, what will they do? Will they fight against the destiny of their world until the bitter end, or will they ultimately embrace its dark purpose as the lesser of two evils?",
+      "preBlurb": "Lies. Betrayal. War. These are the secret tenets upon which the world of Doxla was created. These are the open tenets upon which it will die. When Jax and his sister, Ev, find themselves thrown into the conflict fed by these foul beginnings, what will they do? Will they fight against the destiny of their world until the bitter end, or will they ultimately embrace its dark purpose as the lesser of two evils?",
+      "fullBlurb": [
+        "The Radiant series follows the lives of Jax, his sister, Ev, and the monster hunter, Birdie, as they journey across and beyond the world of Doxla to defend themselves and their homes against those who would seek to destroy or enslave them. As they travel, they will slowly uncover the secrets behind their world's existence, as well as the true nature of the beings known as Divine, including the all-powerful Masters.",
+        "The first book centers around Jax and his journey to protect the titular Heart of the Radiant from the immortal hordes of the Undead King, Dezeroth. Failure means the return of the Dark Radiant, which would upend the current world order. Success may mean something far worse.",
+        "The second book follows Birdie as she struggles against the Radiant, Lux Rosa, while reality itself slowly begins to fall apart. When forced to confront her own origins and purpose, Birdie learns the secrets of the Divine and also that the slaughter that would result from Lux Rosa's victory may in fact be the safer option for Doxla's future.",
+        "The third and final book follows Ev as she discovers the true reason for Doxla's creation by the Masters, but she also sees firsthand the devastation left behind by their actions. In the wake of such revelations, she will find herself torn toward both sides of the final battle that will decide the fate of not only everyone she cares about, but countless other worlds touched by the Masters' machinations as well."
+      ],
+      "bookList": [
         {
-            "title": "Radiant",
-            "tagLine": "The Story of a \"Forgotten\" World with a Forbidden Purpose",
-            "quickBlurb": "Lies. Betrayal. War. These are the secret tenets upon which the world of Doxla was created. These are the open tenets upon which it will die. When Jax and his sister, Ev, find themselves thrown into the conflict fed by these foul beginnings, what will they do? Will they fight against the destiny of their world until the bitter end, or will they ultimately embrace its dark purpose as the lesser of two evils?",
-            "preBlurb": "Lies. Betrayal. War. These are the secret tenets upon which the world of Doxla was created. These are the open tenets upon which it will die. When Jax and his sister, Ev, find themselves thrown into the conflict fed by these foul beginnings, what will they do? Will they fight against the destiny of their world until the bitter end, or will they ultimately embrace its dark purpose as the lesser of two evils?",
-            "fullBlurb": [
-                "The Radiant series follows the lives of Jax, his sister, Ev, and the monster hunter, Birdie, as they journey across and beyond the world of Doxla to defend themselves and their homes against those who would seek to destroy or enslave them. As they travel, they will slowly uncover the secrets behind their world's existence, as well as the true nature of the beings known as Divine, including the all-powerful Masters.",
-                "The first book centers around Jax and his journey to protect the titular Heart of the Radiant from the immortal hordes of the Undead King, Dezeroth. Failure means the return of the Dark Radiant, which would upend the current world order. Success may mean something far worse.",
-                "The second book follows Birdie as she struggles against the Radiant, Lux Rosa, while reality itself slowly begins to fall apart. When forced to confront her own origins and purpose, Birdie learns the secrets of the Divine and also that the slaughter that would result from Lux Rosa's victory may in fact be the safer option for Doxla's future.",
-                "The third and final book follows Ev as she discovers the true reason for Doxla's creation by the Masters, but she also sees firsthand the devastation left behind by their actions. In the wake of such revelations, she will find herself torn toward both sides of the final battle that will decide the fate of not only everyone she cares about, but countless other worlds touched by the Masters' machinations as well."
-            ],
-            "bookList": [
-                {
-                    "title": "The Heart of the Radiant",
-                    "tagLine": "A Battle for a Dying World",
-                    "imageFileFlat": "heart-ebook.jpg",
-                    "imageFile3D": "heart-3d.png",
-                    "htmlFile": "thotr.html",
-                    "quickBlurb": "What would drive an immortal king to restore that which would rule over him? What would lead a Divine protector to turn and slaughter his own? Why would the world's creators suddenly abandon it to destruction and decay? Perhaps if his world wasn't burning down around him, Jax Ruthoree would have time to ponder these thoughts, but not now. Now, he must survive. He must do everything in his power to prevent the return of the Dark Radiant. After all, it's not like the answers to those questions would make him doubt everything he's ever believed. Could it?",
-                    "preBlurb": "An ancient darkness, a fallen hero, and a secret so dangerous that worlds have been felled to bury it. The Radiant trilogy begins here.",
-                    "fullBlurb": [
-                        "What would drive an immortal king to restore that which would rule over him? What would lead a Divine protector to turn and slaughter his own? Why would the world's creators suddenly abandon it to destruction and decay? Perhaps if his world wasn't burning down around him, Jax Ruthoree would have time to ponder these thoughts, but not now.",
-                        "Now, he must flee. He must survive. He must protect his sister as he journeys toward salvation. Most importantly of all, he must prevent the Heart of the Dark Radiant from falling into the clutches of the Undead King, Dezeroth, or at least that is what Jax believes. Perhaps if he pondered a bit more, he might question his resolve. If he knew the true nature of his world, he might even welcome its end. Instead, he marches bravely and blindly on, his journey but the first step to revealing the truth behind everything."
-                    ],
-                    "amazonLink": "https://www.amazon.com/dp/B0852G351D",
-                    "bnLink": "https://www.barnesandnoble.com/w/the-heart-of-the-radiant-daniel-kogler/1136542733?ean=9781952033018",
-                    "bamLink": "https://www.booksamillion.com/p/Heart-Radiant/Daniel-Kogler/9781952033018?id=7826567071795",
-                    "indieLink": "https://www.indiebound.org/book/9781952033018",
-                    "koboLink": "https://www.kobo.com/us/en/ebook/the-heart-of-the-radiant",
-                    "titleColor": "#fefeee",
-                    "titleShadow": "#101000",
-                    "borderColor": "#c8c8b0"
-                },
-                {
-                    "title": "The Mind of the Radiant",
-                    "tagLine": "When Darkness Shines Brighter than Light",
-                    "imageFileFlat": "mind-ebook.jpg",
-                    "imageFile3D": "mind-3d.png",
-                    "htmlFile": "tmotr.html",
-                    "quickBlurb": "How could Birdie be made a Divine, despite being a native to the world? What is she really? These are the questions plagueing Birdie's mind as she races toward Ars Summis to seek aid against the terrifying and enigmatic Lux Rosa, whose power is unmatched and whose only goal is the complete and utter conquest of Doxla. Unfortunately for Birdie, the answers that wait at the end of her journey may just be enough to make her question if Lux Rosa might be the best choice for Doxla after all.",
-                    "preBlurb": "In this action-packed sequel to The Heart of the Radiant, a mysterious new threat appears in Doxla, and its power only rises as the world plunges ever further into decay.",
-                    "fullBlurb": [
-                        "What is the true nature of the Divine? Why do some seek Doxla's destruction, while others seek its salvation? Most importantly of all, at least to Birdie: How could she be made a Divine, despite being a native to the world? Whatever the answers to these questions, Birdie cannot hide from them any longer, not with a fanatical army seeking nothing more than an end to her home and her life purely because of what she is.",
-                        "Now forced to confront the secrets of both her past and her ruthless \"othermind\", Birdie must race to the City of the Divine before the enigmatic Lux Rosa uses her army to obtain the power of the Masters for herself. If that happens, Lux Rosa's power will become absolute, and all that Birdie cares for will come to an end. Unfortunately for Birdie, the answers that wait at the end of her journey may just be enough to make her question if Lux Rosa has the right ideas after all."
-                    ],
-                    "amazonLink": "https://www.amazon.com/dp/B08X3W1WL1",
-                    "bnLink": "https://www.barnesandnoble.com/w/the-mind-of-the-radiant-daniel-kogler/1138873570?ean=9781952033032",
-                    "bamLink": "https://www.booksamillion.com/p/Mind-Radiant/Daniel-Kogler/9781952033032?id=7826567071795",
-                    "indieLink": "https://www.indiebound.org/book/9781952033032",
-                    "koboLink": "https://www.kobo.com/us/en/ebook/the-mind-of-the-radiant",
-                    "titleColor": "#eeeeee",
-                    "titleShadow": "#000000",
-                    "borderColor": "#c0c0c0"
-                }
-            ]
+          "title": "The Heart of the Radiant",
+          "tagLine": "A Battle for a Dying World",
+          "imageFileFlat": "radiant/heart-ebook.jpg",
+          "imageFile3D": "radiant/heart-3d.png",
+          "htmlFile": "radiant/thotr.html",
+          "quickBlurb": "What would drive an immortal king to restore that which would rule over him? What would lead a Divine protector to turn and slaughter his own? Why would the world's creators suddenly abandon it to destruction and decay? Perhaps if his world wasn't burning down around him, Jax Ruthoree would have time to ponder these thoughts, but not now. Now, he must survive. He must do everything in his power to prevent the return of the Dark Radiant. After all, it's not like the answers to those questions would make him doubt everything he's ever believed. Right?",
+          "preBlurb": "An ancient darkness, a fallen hero, and a secret so dangerous that worlds have been felled to bury it. The Radiant trilogy begins here.",
+          "fullBlurb": [
+            "What would drive an immortal king to restore that which would rule over him? What would lead a Divine protector to turn and slaughter his own? Why would the world's creators suddenly abandon it to destruction and decay? Perhaps if his world wasn't burning down around him, Jax Ruthoree would have time to ponder these thoughts, but not now.",
+            "Now, he must flee. He must survive. He must protect his sister as he journeys toward salvation. Most importantly of all, he must prevent the Heart of the Dark Radiant from falling into the clutches of the Undead King, Dezeroth, or at least that is what Jax believes. Perhaps if he pondered a bit more, he might question his resolve. If he knew the true nature of his world, he might even welcome its end. Instead, he marches bravely and blindly on, his journey but the first step to revealing the truth behind everything."
+          ],
+          "amazonLink": "https://www.amazon.com/dp/B0852G351D",
+          "bnLink": "https://www.barnesandnoble.com/w/the-heart-of-the-radiant-daniel-kogler/1136542733?ean=9781952033018",
+          "bamLink": "https://www.booksamillion.com/p/Heart-Radiant/Daniel-Kogler/9781952033018?id=7826567071795",
+          "indieLink": "https://www.indiebound.org/book/9781952033018",
+          "koboLink": "https://www.kobo.com/us/en/ebook/the-heart-of-the-radiant",
+          "titleColor": "#fefeee",
+          "titleShadow": "#101000",
+          "borderColor": "#c8c8b0"
+        },
+        {
+          "title": "The Mind of the Radiant",
+          "tagLine": "When Darkness Shines Brighter than Light",
+          "imageFileFlat": "radiant/mind-ebook.jpg",
+          "imageFile3D": "radiant/mind-3d.png",
+          "htmlFile": "radiant/tmotr.html",
+          "quickBlurb": "What is Birdie, really? How does she know things she's never learned? Is it because she is a Divine? These questions plague Birdie's mind as she races toward Ars Summis to seek aid against the terrifying and enigmatic Lux Rosa, whose hold over Doxla grows ever more absolute with each passing day. Unfortunately for Birdie, the knowledge that waits at the end of her journey may just be enough to make her question if Lux Rosa has the right ideas after all.",
+          "preBlurb": "A mysterious foe, a reluctant savior, and glimpses at the true nature of the world. The Radiant trilogy continues as Doxla falls ever deeper into decay.",
+          "fullBlurb": [
+            "What is Birdie, really? How does she know things she's never learned? Is it because she is a Divine? What does being a Divine even mean? Whatever the answers to these questions, Birdie cannot hide from them any longer, not with a fanatical army seeking nothing more than an end to her life and her home purely because of what she is.",
+            "Now forced to confront the secrets of both her past and her ruthless \"othermind\", Birdie must race to the City of the Divine before the enigmatic Lux Rosa uses her army to obtain the power of the Masters for herself. If that happens, Lux Rosa's power will become absolute, and all that Birdie cares for will come to an end. Unfortunately for Birdie, the answers that wait at the end of her journey may just be enough to make her question if Lux Rosa has the right ideas after all."
+          ],
+          "amazonLink": "https://www.amazon.com/dp/B08X3W1WL1",
+          "bnLink": "https://www.barnesandnoble.com/w/the-mind-of-the-radiant-daniel-kogler/1138873570?ean=9781952033032",
+          "bamLink": "https://www.booksamillion.com/p/Mind-Radiant/Daniel-Kogler/9781952033032?id=7826567071795",
+          "indieLink": "https://www.indiebound.org/book/9781952033032",
+          "koboLink": "https://www.kobo.com/us/en/ebook/the-mind-of-the-radiant",
+          "titleColor": "#eeeeee",
+          "titleShadow": "#000000",
+          "borderColor": "#c0c0c0"
+        },
+        {
+          "title": "The Soul of the Radiant",
+          "tagLine": "One Soul, Two Destinies",
+          "imageFileFlat": "radiant/soul-ebook.jpg",
+          "imageFile3D": "radiant/soul-3d.png",
+          "htmlFile": "radiant/tsotr.html",
+          "quickBlurb": "The end of the world is at hand, but not the end of Ev's story. When the Masters return, the borders of Doxla are breached, and the truth about her world is revealed. Hers is not the only world held tight in the Masters' grasp, and the Masters' goals are more than simply fortune and power. All along everyone has been but a pawn in a greater game, but which side will Ev join now that she can see the entire playing field?",
+          "preBlurb": "At long last the Masters return, and all that has been fought for is torn asunder. Journey beyond the borders of Doxla as the Radiant trilogy reaches its epic conclusion.",
+          "fullBlurb": [
+            "The end of the world is at hand, but not the end of Ev's story. When the Masters return, the borders of Doxla are breached, and the truth about her world is revealed. Hers is not the only world held tight in the Masters' grasp, and the Masters' goals are more than simply fortune and power.",
+            "Now, Ev must make a choice. Will she strive to protect the survivors of Doxla, or will she strike back against the Masters with their own power? Or, having been betrayed and abandoned by her mentor, will she instead side with the Master, Sylvra, in the hope of saving other worlds from Doxla's fate?",
+            "Whatever her decision, Ev must be prepared to stand by it, even if it means the loss of everything she has ever known."
+          ],
+          "amazonLink": "https://www.amazon.com/dp/B0BBBV84VN",
+          "bnLink": "",
+          "bamLink": "",
+          "indieLink": "",
+          "koboLink": "",
+          "titleColor": "#eeffff",
+          "titleShadow": "#002244",
+          "borderColor": "#c0e0ff"
         }
-    ]
+      ]
+    }
+  ]
 }
