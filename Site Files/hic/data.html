@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<head>
+  <link rel="shortcut icon" href="/img/Logo 2 square.png" />
+  <link rel="stylesheet" type="text/css" href="/css/graphs.css" />
+  <title>Example Page</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script src="js/generalHelpers.js"></script>
+  <script src="js/component.js"></script>
+  <script src="js/validate.js"></script>
+  <script src="js/data.js"></script>
+</head>
+<body>
+  <div id="data-container">
+    <div class="full-data-section" id="component-full-data-section">
+      <!--The component management section-->
+      <div class="dropdown-section" id="component-list">
+        <form>
+          <label for="components-dropdown">Selected Component</label>
+          <br />
+          <select
+            class="data-section-dropdown"
+            name="components-dropdown"
+            id="components-dropdown"
+          ></select>
+          <br />
+          <button class="add-button" id="add-component-button" type="button">
+            New Component
+          </button>
+          <button
+            class="delete-button"
+            id="delete-component-button"
+            type="button"
+          >
+            Delete Component
+          </button>
+          <hr />
+        </form>
+      </div>
+      <!--The component data section-->
+      <div class="data-section" id="component">
+        <div class="collapse-trigger" id="component-collapse">General Data</div>
+        <div class="collapsible" id="component-data">
+          <div class="data-row" id="name-row">
+            Name
+            <input
+              type="text"
+              id="name-entry"
+              name="name-entry"
+              placeholder="Name"
+            />
+          </div>
+
+          <div class="data-row" id="group-summary-row">
+            Group Summary
+            <input
+              type="checkbox"
+              id="group-summary-box"
+              name="group-summary-box"
+            />
+          </div>
+
+          <div class="data-row" id="type-row">
+            Type
+            <input
+              type="text"
+              class="type-entry"
+              id="type-entry"
+              name="type-entry"
+              readonly
+            />
+            <button
+              class="type-grid-button"
+              id="type-grid-button"
+              type="button"
+            >
+              Show Grid
+            </button>
+          </div>
+
+          <div class="data-row" id="component-identity-row">
+            Component Identity Spectrum
+            <input
+              type="text"
+              class="spectrum-entry"
+              id="component-identity-entry"
+              name="component-identity-entry"
+            />
+          </div>
+
+          <div class="data-row" id="collective-identity-row">
+            Collective Identity Spectrum
+            <input
+              type="text"
+              class="spectrum-entry"
+              id="collective-identity-entry"
+              name="collective-identity-entry"
+            />
+          </div>
+
+          <div class="data-row" id="original-count-row">
+            Original Count
+            <input
+              type="text"
+              class="count-entry"
+              id="original-count-entry"
+              name="original-count-entry"
+            />
+          </div>
+
+          <div class="data-row" id="generated-count-row">
+            Generated Count
+            <input
+              type="text"
+              class="count-entry"
+              id="generated-count-entry"
+              name="generated-count-entry"
+            />
+          </div>
+
+          <div class="data-row" id="assimilated-count-row">
+            Assimilated Count
+            <input
+              type="text"
+              class="count-entry"
+              id="assimilated-count-entry"
+              name="assimilated-count-entry"
+            />
+          </div>
+
+          <div class="data-row" id="other-count-row">
+            Other Count
+            <input
+              type="text"
+              class="count-entry"
+              id="other-count-entry"
+              name="other-count-entry"
+            />
+          </div>
+
+          <div class="data-row" id="integration-row">
+            Integration Spectrum
+            <input
+              type="text"
+              class="spectrum-entry"
+              id="integration-entry"
+              name="integration-entry"
+            />
+          </div>
+
+          <div class="data-row" id="shared-will-row">
+            Shared Will Degree
+            <input
+              type="text"
+              class="spectrum-entry"
+              id="shared-will-entry"
+              name="shared-will-entry"
+            />
+          </div>
+
+          <div class="data-row" id="shared-knowledge-row">
+            Shared Knowledge Degree
+            <input
+              type="text"
+              class="spectrum-entry"
+              id="shared-knowledge-entry"
+              name="shared-knowledge-entry"
+            />
+          </div>
+
+          <div class="data-row" id="shared-personality-row">
+            Shared Personality Spectrum
+            <input
+              type="text"
+              class="spectrum-entry"
+              id="shared-personality-entry"
+              name="shared-personality-entry"
+            />
+          </div>
+
+          <div class="data-row" id="component-exchange-row">
+            Component Exchange Allowed
+            <input
+              type="checkbox"
+              id="component-exchange-box"
+              name="component-exchange-box"
+            />
+          </div>
+
+          <div class="data-row" id="fluid-range-row">
+            Fluid Range
+            <input
+              type="text"
+              class="type-entry"
+              id="fluid-range-entry"
+              name="fluid-range-entry"
+              readonly
+            />
+            <button
+              class="type-grid-button"
+              id="fluid-grid-button"
+              type="button"
+            >
+              Show Grid
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="full-data-section" id="sibling-full-data-section">
+      <!--The sibling management section-->
+      <div class="dropdown-section" id="sibling-list">
+        <form>
+          <label for="siblings-dropdown">Selected Sibling</label>
+          <br />
+          <select
+            class="data-section-dropdown"
+            name="siblings-dropdown"
+            id="siblings-dropdown"
+          ></select>
+          <br />
+          <button class="add-button" id="add-sibling-button" type="button">
+            New Sibling
+          </button>
+          <button
+            class="delete-button"
+            id="delete-sibling-button"
+            type="button"
+          >
+            Delete Sibling
+          </button>
+          <hr />
+        </form>
+      </div>
+      <!--The sibling data section-->
+      <div class="data-section" id="sibling">
+        <div class="collapse-trigger" id="sibling-collapse">Sibling Data</div>
+        <div class="collapsible" id="sibling-data"></div>
+      </div>
+    </div>
+    <div class="full-data-section" id="subcomponent-full-data-section">
+      <!--The subcomponent management section-->
+      <div class="dropdown-section" id="subcomponent-list">
+        <form>
+          <label for="subcomponent-dropdown">Selected Subcomponent</label>
+          <br />
+          <select
+            class="data-section-dropdown"
+            name="subcomponent-dropdown"
+            id="subcomponent-dropdown"
+          ></select>
+          <br />
+          <button class="add-button" id="add-subcomponent-button" type="button">
+            New Subcomponent
+          </button>
+          <button
+            class="delete-button"
+            id="delete-subcomponent-button"
+            type="button"
+          >
+            Delete Subcomponent
+          </button>
+          <hr />
+        </form>
+      </div>
+      <!--The subcomponent data section-->
+      <div class="data-section" id="subcomponent">
+        <div class="collapse-trigger" id="subcomponent-collapse">
+          Subcomponent Data
+        </div>
+        <div class="collapsible" id="subcomponent-data"></div>
+      </div>
+    </div>
+    <div class="full-data-section" id="transformation-full-data-section">
+      <!--The transformation management section-->
+      <div class="dropdown-section" id="transformation-list">
+        <form>
+          <label for="transformation-dropdown">Selected Transformation</label>
+          <br />
+          <select
+            class="data-section-dropdown"
+            name="transformation-dropdown"
+            id="transformation-dropdown"
+          ></select>
+          <br />
+          <button
+            class="add-button"
+            id="add-transformation-button"
+            type="button"
+          >
+            New Transformation
+          </button>
+          <button
+            class="delete-button"
+            id="delete-transformation-button"
+            type="button"
+          >
+            Delete Transformation
+          </button>
+          <hr />
+        </form>
+      </div>
+      <!--The transformation data section-->
+      <div class="data-section" id="transformation">
+        <div class="collapse-trigger" id="transformation-collapse">
+          Transformation Data
+        </div>
+        <div class="collapsible" id="transformation-data">
+          <div class="data-row" id="trans-type-row">
+            Type
+            <input
+              type="text"
+              class="one-type-entry"
+              id="trans-type-entry"
+              name="trans-type-entry"
+              readonly
+            />
+            <button
+              class="one-type-grid-button"
+              id="trans-type-grid-button"
+              type="button"
+            >
+              Show Grid
+            </button>
+          </div>
+          <div class="data-row" id="trans-nature-row">
+            Nature
+            <select
+              class="option-dropdown"
+              name="trans-nature-dropdown"
+              id="trans-nature-dropdown"
+            >
+              <option value="Past" id="trans-nature-past">Past</option>
+              <option value="Future" id="trans-nature-future">Future</option>
+              <option value="Reversible" id="trans-nature-reversible">
+                Reversible
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <p id="valid">Analysis Pending</p>
+    </div>
+  </div>
+</body>
+
+<script>
+  load("ent.json");
+</script>

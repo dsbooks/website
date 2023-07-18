@@ -3,18 +3,17 @@
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 // validate the imported list of components
-function validate() {
-  $.getJSON("/hic/aurum.json", function (json) {
-    if (!valueCheck(json)) {
-      $("#valid").text("The data has invalid values");
-      return;
-    }
-    if (!consistencyCheck(json)) {
-      $("#valid").text("The data is inconsistent");
-      return;
-    }
-    $("#valid").text("The data is valid");
-  });
+function validate(data) {
+  if (!valueCheck(data)) {
+    $("#valid").text("The data has invalid values");
+    return false;
+  }
+  if (!consistencyCheck(data)) {
+    $("#valid").text("The data is inconsistent");
+    return false;
+  }
+  $("#valid").text("The data is valid");
+  return true;
 }
 
 // type check the entire list of components
@@ -38,9 +37,9 @@ function componentValueCheck(component) {
       `Component id ${component.id}, name ${component.name} has an invalid components entry of ${component.components}`
     );
     return false;
-  } else if (!Array.isArray(component.potentialTransformations)) {
+  } else if (!Array.isArray(component.transformations)) {
     console.log(
-      `Component id ${component.id}, name ${component.name} has an invalid transformations entry of ${component.potentialTransformations}`
+      `Component id ${component.id}, name ${component.name} has an invalid transformations entry of ${component.transformations}`
     );
     return false;
   } else if (!Array.isArray(component.siblings)) {
@@ -73,7 +72,7 @@ function componentValueCheck(component) {
   if (!validateDegree(component, "sharedWillDegree")) return false;
   if (!validateDegree(component, "sharedKnowledgeDegree")) return false;
   if (!validateDegree(component, "sharedPersonalityDegree")) return false;
-  if (!validatePotentialTransformations(component, "potentialTransformations"))
+  if (!validatePotentialTransformations(component, "transformations"))
     return false;
   if (!validateSiblings(component, "siblings")) return false;
   if (!validateComponents(component, "components")) return false;
@@ -685,11 +684,6 @@ function compareConnectionDegrees(a, b, aView, bView, conKey1, conKey2) {
 // HELPER FUNCTIONS                                                                      //
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-// use to check if a structure is fluid
-function structureIsFluid(type) {
-  return type[0] === "7";
-}
-
 // checks if the count entries are valid
 function hasProperCounts(component) {
   if (
@@ -701,21 +695,6 @@ function hasProperCounts(component) {
     return false;
   }
   return true;
-}
-
-// validates a count value
-function validateCount(number) {
-  return typeof number === "number" && number >= 0 && Number.isInteger(number);
-}
-
-// sums the counts of a component together
-function sumCounts(component) {
-  return (
-    component.originalCount +
-    component.assimilatedCount +
-    component.generatedCount +
-    component.otherCount
-  );
 }
 
 // make sure that all sibling and components lists have valid id numbers
@@ -765,7 +744,7 @@ function validateConnection(component, connectionComponent, connection) {
 // validate a connection degree and print an error message if it is bad
 function validateConnectionDegree(component, connectionComponent, connection) {
   const degree = connectionComponent[connection];
-  if (typeof degree !== "number" || degree < 0 || degree > 1) {
+  if (!validateDegree(degree)) {
     console.log(
       `component id ${component.id}, name ${component.name} has an invalid ${connection} for other component id of ${connectionComponent.id}.\nThe degree is ${degree}, but it must be a number between 0 and 1.`
     );

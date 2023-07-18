@@ -1,6 +1,5 @@
-// Below is an a reference for the values that a component's properties may take
+/* THIS IS JUST A GLORIFIED REFERENCE FILE
 
-/* 
 NOTE 1: for all connection types, the options are as follows:
 
 open        (the connection is always active)
@@ -13,7 +12,8 @@ variable    (the connection differs between different instances of the same comp
 NOTE 2: a Component (any time the word is used) refers specifically to a type of component that is a direct child of a particular collective. There can be multiple instances of the same component type within the same intelligence, and these all have the same entry (the various "Count" values declare how many). There may be other instances of the same component type in other collectives as well, but these do not count towards the component "Count" values, as they do not belong to the same parent intelligence.
 */
 
-const Component = {
+// this is a reference for what kind of data can/should be in a component
+const ComponentRef = {
   id: "number", // unique id (not per component, but per type of component in this part of the overall intelligence structure)
   name: "anything", // optional name for the component
   type: ["string", "[string]"], // the structure type of the component (use an array if there is more than one type, which should only be the case if groupSummary is true)
@@ -30,7 +30,7 @@ const Component = {
   sharedPersonalityDegree: ["number", "undefined"], // the degree to which a common personality is shared amongst all instances of this type of component within the same parent collective (0 for none, 1 for 100%)
   componentExchangeAllowed: ["boolean", "undefined"], // whether or not instances of this type of component can share subcomponents between one another (restricted to only components sharing the same parent collective)
   fluidRange: ["[string]", "undefined"], // the base structures that the component can mimic (including hybridizing structures) if applicable
-  potentialTransformations: [
+  transformations: [
     // the potential fundamental transformations that this component's structure can undergo; note that "reversible" transformations should only be listed if the component has a history of regularly making use of that transformation. Furthermore, this does NOT include transformations due to the intelligence being fluid. These transformations must either be irreversible or induced by outside forces.
     {
       type: "string", // the structure type
@@ -77,54 +77,3 @@ const Component = {
     },
   ],
 };
-
-const validStructureTypes = [
-  "1a",
-  "1b",
-  "1c",
-  "1d",
-  "1e",
-  "2a",
-  "2b",
-  "2c",
-  "2d",
-  "2e",
-  "3a",
-  "3b",
-  "3c",
-  "3d",
-  "3e",
-  "4a",
-  "4b",
-  "4c",
-  "4d",
-  "5a",
-  "5b",
-  "5c",
-  "5d",
-  "6a",
-  "6b",
-  "6c",
-  "7a",
-  "7b",
-  "7c",
-  "8",
-];
-
-const validConnectionTypes = [
-  "open",
-  "on-demand",
-  "on-demand-u",
-  "on-demand-d",
-  "none",
-];
-const validTransferTypes = ["up", "down", "both", "none"];
-const validTransformationNatures = ["reversible", "future", "past"];
-const validStructureNatures = [
-  "permanent",
-  "effectively permanent",
-  "semi-permanent",
-  "effectively semi-permanent",
-  "reversible",
-  "ephemeral",
-];

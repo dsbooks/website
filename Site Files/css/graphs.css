@@ -1,0 +1,138 @@
+/* General CSS */
+#data-container {
+  width: 320px;
+  max-height: 90%;
+  border: silver ridge 4px;
+  padding: 5px;
+  position: absolute;
+  overflow-y: auto;
+}
+
+.delete-button {
+  float: right;
+}
+
+.full-data-section {
+  border: 1px solid silver;
+  padding: 2px;
+}
+
+input {
+  float: right;
+  position: relative;
+  top: -2px;
+}
+
+.data-section-dropdown {
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.data-section {
+  margin: 2px;
+}
+
+.collapse-trigger {
+  text-align: center;
+  font-size: large;
+}
+
+.data-row {
+  padding: 2.5px;
+}
+
+.spectrum-entry {
+  width: 45px;
+  text-align: right;
+}
+
+.count-entry {
+  width: 75px;
+  text-align: right;
+}
+
+.type-entry {
+  width: 90px;
+  text-align: center;
+}
+
+.type-grid-button,
+.one-type-grid-button {
+  float: right;
+  position: relative;
+  top: -2px;
+  margin-right: 4px;
+}
+
+.option-dropdown {
+  float: right;
+}
+
+/* Specific CSS */
+#name-entry {
+  text-align: center;
+}
+
+#trans-type-entry {
+  float: right;
+  width: 30px;
+  text-align: center;
+  position: relative;
+  top: -2px;
+}
+
+#component-collapse {
+  background-color: rgb(199, 228, 141);
+}
+
+#component-data {
+  border-left: rgb(199, 228, 141) double 2px;
+  border-right: rgb(199, 228, 141) double 2px;
+  border-bottom: rgb(199, 228, 141) double 2px;
+}
+
+#component-data .data-row {
+  border-bottom: rgb(199, 228, 141) solid 1px;
+}
+
+#sibling-collapse {
+  background-color: rgb(255, 211, 225);
+}
+
+#sibling-data {
+  border-left: rgb(255, 211, 225) double 2px;
+  border-right: rgb(255, 211, 225) double 2px;
+  border-bottom: rgb(255, 211, 225) double 2px;
+}
+
+#sibling-data .data-row {
+  border-bottom: rgb(255, 211, 225) solid 1px;
+}
+
+#subcomponent-collapse {
+  background-color: rgb(165, 216, 233);
+}
+
+#subcomponent-data {
+  border-left: rgb(165, 216, 233) double 2px;
+  border-right: rgb(165, 216, 233) double 2px;
+  border-bottom: rgb(165, 216, 233) double 2px;
+}
+
+#sibling-data .data-row {
+  border-bottom: rgb(165, 216, 233) solid 1px;
+}
+
+#transformation-collapse {
+  background-color: rgb(224, 143, 161);
+}
+
+#transformation-data {
+  border-left: rgb(224, 143, 161) double 2px;
+  border-right: rgb(224, 143, 161) double 2px;
+  border-bottom: rgb(224, 143, 161) double 2px;
+}
+
+#transformation-data .data-row {
+  border-bottom: rgb(224, 143, 161) solid 1px;
+}
