@@ -1,6 +1,10 @@
 /* General CSS */
+body {
+  --container-width: 320px;
+}
+
 #data-container {
-  width: 320px;
+  width: var(--container-width);
   max-height: 90%;
   border: silver ridge 4px;
   padding: 5px;
@@ -13,11 +17,10 @@
 }
 
 .full-data-section {
-  border: 1px solid silver;
   padding: 2px;
 }
 
-input {
+.data-section input {
   float: right;
   position: relative;
   top: -2px;
@@ -81,6 +84,7 @@ input {
   top: -2px;
 }
 
+#component-list label,
 #component-collapse {
   background-color: rgb(199, 228, 141);
 }
@@ -95,6 +99,11 @@ input {
   border-bottom: rgb(199, 228, 141) solid 1px;
 }
 
+#component-full-data-section {
+  border: 1px solid rgb(199, 228, 141);
+}
+
+#sibling-list label,
 #sibling-collapse {
   background-color: rgb(255, 211, 225);
 }
@@ -109,6 +118,11 @@ input {
   border-bottom: rgb(255, 211, 225) solid 1px;
 }
 
+#sibling-full-data-section {
+  border: 1px solid rgb(255, 211, 225);
+}
+
+#subcomponent-list label,
 #subcomponent-collapse {
   background-color: rgb(165, 216, 233);
 }
@@ -119,10 +133,15 @@ input {
   border-bottom: rgb(165, 216, 233) double 2px;
 }
 
-#sibling-data .data-row {
+#subcomponent-data .data-row {
   border-bottom: rgb(165, 216, 233) solid 1px;
 }
 
+#subcomponent-full-data-section {
+  border: 1px solid rgb(165, 216, 233);
+}
+
+#transformation-list label,
 #transformation-collapse {
   background-color: rgb(224, 143, 161);
 }
@@ -135,4 +154,53 @@ input {
 
 #transformation-data .data-row {
   border-bottom: rgb(224, 143, 161) solid 1px;
+}
+
+#transformation-full-data-section {
+  border: 1px solid rgb(224, 143, 161);
+}
+
+/* Grid CSS */
+.grid-box {
+  position: absolute;
+  left: calc(var(--container-width) + 30px);
+  width: 250px;
+  height: 220px;
+  background-color: darkgray;
+  border: dimgray 2px ridge;
+}
+
+.grid-label {
+  margin: 5px;
+  text-align: center;
+}
+
+.grid-row {
+  display: inline-block;
+}
+
+.grid-entry {
+  float: left;
+}
+
+.grid-entry input {
+  margin-right: 0px;
+  margin-left: 15px;
+}
+
+.grid-header {
+  display: inline;
+}
+
+.grid-x {
+  position: absolute;
+  top: 5px;
+  left: 230px;
+  height: 15px;
+  border: 1px black solid;
+  background-color: lightgray;
+  content: "x";
+  color: #000;
+  font-weight: 300;
+  font-family: Arial, sans-serif;
 }

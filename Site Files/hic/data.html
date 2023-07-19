@@ -6,10 +6,10 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-  <script src="js/generalHelpers.js"></script>
-  <script src="js/component.js"></script>
-  <script src="js/validate.js"></script>
-  <script src="js/data.js"></script>
+  <script src="/hic/js/generalHelpers.js"></script>
+  <script src="/hic/js/component.js"></script>
+  <script src="/hic/js/validate.js"></script>
+  <script src="/hic/js/data.js"></script>
 </head>
 <body>
   <div id="data-container">
@@ -276,12 +276,12 @@
       <!--The transformation management section-->
       <div class="dropdown-section" id="transformation-list">
         <form>
-          <label for="transformation-dropdown">Selected Transformation</label>
+          <label for="transformations-dropdown">Selected Transformation</label>
           <br />
           <select
             class="data-section-dropdown"
-            name="transformation-dropdown"
-            id="transformation-dropdown"
+            name="transformations-dropdown"
+            id="transformations-dropdown"
           ></select>
           <br />
           <button
@@ -343,8 +343,15 @@
       <p id="valid">Analysis Pending</p>
     </div>
   </div>
+  <div id="comp-type-grid"></div>
+  <div id="fluid-type-grid"></div>
+  <div id="one-type-grid"></div>
 </body>
 
 <script>
   load("ent.json");
+   // load the grid elements
+  $("#comp-type-grid").load("/hic/grids/comp-type-grid.html").hide();
+  $("#fluid-type-grid").load("/hic/grids/fluid-type-grid.html").hide();
+  $("#one-type-grid").load("/hic/grids/one-type-grid.html").hide();
 </script>

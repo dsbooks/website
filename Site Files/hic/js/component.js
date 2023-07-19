@@ -16,18 +16,14 @@ class Component {
   }
 }
 
-class Subcomponent {
+class Subcomponent {}
 
-}
-
-class Sibling {
-
-}
+class Sibling {}
 
 class Transformation {
   constructor(type = "1a", nature = "past") {
     this.type = type;
-    this.nature = nature;
+    this.transformationNature = nature;
   }
 }
 
