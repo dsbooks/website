@@ -14,7 +14,10 @@ $(() => {
   $("#delete-component-button").click(deleteComponent);
   $("#subcomponents-dropdown").change(selectSubcomponent);
   $("#add-subcomponent-button").click(addSubcomponent);
-  // $("#delete-subcomponent-button").click(deleteSubcomponent);
+  $("#delete-subcomponent-button").click(deleteSubcomponent);
+
+  // TODO: for both sibling and component delete, the holistic check will be required
+
   $("#transformations-dropdown").change(selectTransformation);
   $("#add-transformation-button").click(addTransformation);
   $("#delete-transformation-button").click(deleteTransformation);
@@ -22,13 +25,17 @@ $(() => {
 
   // register editing events (the toggle buttons are technically not editing, but whatevs)
   // registration of events for the grid buttons are handled in the grid html files
+  $("input[type='text']").keydown(function (e) {
+    if (e.key === "Enter") $(this).blur();
+  });
   $("#trans-type-grid-button").click(toggleOneTypeGrid);
   $("#trans-nature-dropdown").change(changeTransformationNature);
-
-  $(".connection-dropdown").change(function () {
-    console.log($(this).attr("id"));
-  });
+  $("#sub-id-dropdown").change(changeSubcomponentId);
+  $("#sub-nature-dropdown").change(changeSubcomponentNature);
+  $(".connection-dropdown").change(changeSubConnectionType);
+  $(".spectrum-entry").change(changeGenericSpectrumEntry);
 });
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 // COMPONENT FUNCTIONS (NON-EDITING)                                                     //
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -44,12 +51,12 @@ function toggleDataSection() {
 
 // select a component when clicked on and repopulate data fields based on this component
 function selectComponent() {
-  let id = $(this)
+  const id = $(this)
     .find("option:selected")
     .text()
     .replace(/(^\d+)(.+$)/i, "$1");
 
-  let found = componentList.find((v) => v.id == id);
+  const found = componentList.find((v) => v.id == id);
 
   if (found === currentComponent) return;
   currentComponent = found;
@@ -210,38 +217,43 @@ function addSubcomponent() {
   populateSubcomponentData(currentSubcomponent);
 }
 
-// // delete the currently selected transformation
-// function deleteTransformation() {
-//   let index = currentComponent.transformations.indexOf(currentTransformation);
+// delete the currently selected subcomponent
+function deleteSubcomponent() {
+  let index = currentComponent.components.indexOf(currentSubcomponent);
 
-//   currentComponent.transformations.splice(index, 1);
+  const backupSubList = currentComponent.components.map((v) => v);
 
-//   // if the number of transformations is now 0, then clear the currentTransformation data
-//   if (currentComponent.transformations.length === 0) {
-//     currentTransformation = null;
-//     clearTransformationEntries();
-//     $("#transformations-dropdown").empty();
-//   }
-//   // otherwise, keep the same index unless the index is now past the end, in which case go back by 1
-//   else if (index === currentComponent.transformations.length) {
-//     index--;
-//     currentTransformation = currentComponent.transformations[index];
-//   } else {
-//     currentTransformation = currentComponent.transformations[index];
-//   }
-//   populateDataFields(componentList);
-//   if (currentTransformation) {
-//     let value = `${index}-${capitalize(
-//       currentTransformation.transformationNature
-//     )}-${currentTransformation.type}`;
+  currentComponent.components.splice(index, 1);
 
-//     $(`#transformations-dropdown option[value=${value}]`).prop(
-//       "selected",
-//       true
-//     );
-//     populateTransformationData(currentTransformation);
-//   }
-// }
+  // if the removal would separate some components from the overall intelligence, then undo it
+  if (!dataHolisticCheck(componentList)) {
+    currentComponent.components = backupSubList;
+    return;
+  }
+  // if the number of transformations is now 0, then clear the currentTransformation data
+  if (currentComponent.components.length === 0) {
+    currentSubcomponent = null;
+    clearSubcomponentEntries();
+    $("#subcomponents-dropdown").empty();
+  }
+  // otherwise, keep the same index unless the index is now past the end, in which case go back by 1
+  else if (index === currentComponent.components.length) {
+    index--;
+    currentSubcomponent = currentComponent.components[index];
+  } else {
+    currentSubcomponent = currentComponent.components[index];
+  }
+
+  populateDataFields(componentList);
+  if (currentSubcomponent) {
+    const value = `${currentSubcomponent.id}-${cleanupName(
+      componentList.find((v) => v.id === currentSubcomponent.id).name
+    )}`;
+
+    $(`#subcomponents-dropdown option[value=${value}]`).prop("selected", true);
+  }
+  populateSubcomponentData(currentSubcomponent);
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // COMPONENT FUNCTIONS (EDITING)                                                         //
@@ -298,7 +310,7 @@ function handleTransTypeChange() {
 function changeTransformationNature() {
   // first change the nature in memory
   const nature = $(this).find("option:selected").text().trim();
-  currentTransformation.transformationNature = nature.trim().toLowerCase();
+  currentTransformation.transformationNature = nature.toLowerCase();
 
   // then edit the label for the dropdown list
   const currentId = $("#transformations-dropdown")
@@ -316,6 +328,91 @@ function changeTransformationNature() {
     .attr("value", value)
     .attr("id", "trans-" + value)
     .text(label);
+}
+
+// change the subcomponent id
+function changeSubcomponentId() {
+  // first change the id in memory
+  const id = $(this)
+    .find("option:selected")
+    .text()
+    .replace(/(^\d+)(.+$)/i, "$1");
+  currentSubcomponent.id = Number(id);
+
+  // then edit the label for the dropdown list
+  const currentId = $("#subcomponents-dropdown")
+    .find("option:selected")
+    .attr("id");
+
+  const foundComponent = componentList.find((v) => v.id == id);
+  const label = `${id}: ${foundComponent.name}`;
+  const value = `${id}-${cleanupName(foundComponent.name)}`;
+  $(`#${currentId}`)
+    .attr("value", value)
+    .attr("id", "sub-" + value)
+    .text(label);
+
+  handleSubcomponentSection();
+}
+
+// change a subcomponent's nature
+function changeSubcomponentNature() {
+  const nature = $(this).find("option:selected").text().trim();
+  currentSubcomponent.structureNature = getStructureNature(nature);
+}
+
+// change any subcomponent connection type
+function changeSubConnectionType() {
+  const elementId = $(this).attr("id");
+  const conType = getConType($(this).find("option:selected").text().trim());
+  if (elementId === "sub-wup-con-dropdown")
+    currentSubcomponent.parentWillUpConnection = conType;
+  if (elementId === "sub-wdown-con-dropdown")
+    currentSubcomponent.parentWillDownConnection = conType;
+  if (elementId === "sub-kup-con-dropdown")
+    currentSubcomponent.parentKnowledgeUpConnection = conType;
+  if (elementId === "sub-kdown-con-dropdown")
+    currentSubcomponent.parentKnowledgeDownConnection = conType;
+  if (elementId === "sub-pup-con-dropdown")
+    currentSubcomponent.parentPersonalityUpConnection = conType;
+  if (elementId === "sub-pdown-con-dropdown")
+    currentSubcomponent.parentPersonalityDownConnection = conType;
+}
+
+// change any non-sibling spectrum entry
+function changeGenericSpectrumEntry() {
+  const elementId = $(this).attr("id");
+  const value = Math.max(0, Math.min(1, Number($(this).val())));
+
+  $(this).val(value);
+
+  // handle component spectrum entry changes first
+  if (elementId === "component-identity-entry")
+    currentComponent.componentIdentity = value;
+  if (elementId === "collective-identity-entry")
+    currentComponent.collectiveIdentity = value;
+  if (elementId === "integration-entry")
+    currentComponent.integrationSpectrum = value;
+  if (elementId === "shared-will-entry")
+    currentComponent.sharedWillDegree = value;
+  if (elementId === "component-knowledge-entry")
+    currentComponent.sharedKnowledgeDegree = value;
+  if (elementId === "component-personality-entry")
+    currentComponent.sharedPersonalityDegree = value;
+
+  // handle subcomponent spectrum entry changes next
+  if (elementId === "sub-wup-degree-entry")
+    currentSubcomponent.parentWillUpDegree = value;
+  if (elementId === "sub-wdown-degree-entry")
+    currentSubcomponent.parentWillDownDegree = value;
+  if (elementId === "sub-kup-degree-entry")
+    currentSubcomponent.parentKnowledgeUpDegree = value;
+  if (elementId === "sub-kdown-degree-entry")
+    currentSubcomponent.parentKnowledgeDownDegree = value;
+  if (elementId === "sub-pup-degree-entry")
+    currentSubcomponent.parentPersonalityUpDegree = value;
+  if (elementId === "sub-pdown-degree-entry")
+    currentSubcomponent.parentPersonalityDownDegree = value;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -344,7 +441,7 @@ function populateDataFields(componentList) {
   $("#subcomponent-data :input").prop("disabled", true);
   $("#transformation-data :input").prop("disabled", true);
 
-  // clear all dropdown lists (except the component one)
+  // clear all dropdown lists
   $("#components-dropdown").empty();
   $("#siblings-dropdown").empty();
   $("#subcomponents-dropdown").empty();
@@ -511,13 +608,16 @@ function handleComponentSection(componentList) {
 
 // manage loading the subcomponent section
 function handleSubcomponentSection() {
+  $("#subcomponents-dropdown").empty();
   $("#subcomponent-data :input").prop("disabled", false);
-  // create a new subcomponent list
+
+  // create a new subcomponent list after sorting the subcomponents
+  currentComponent.components.sort((a, b) => Number(a.id) - Number(b.id));
   for (let i = 0; i < currentComponent.components.length; i++) {
     let s = currentComponent.components[i];
     let matchingComp = componentList.find((v) => v.id === s.id);
     let label = `${matchingComp.id}: ${matchingComp.name}`;
-    let value = `${matchingComp.id}-${matchingComp.name}`;
+    let value = `${matchingComp.id}-${cleanupName(matchingComp.name)}`;
     $("<option>")
       .attr("value", value)
       .attr("id", `sub-${value}`)
@@ -527,11 +627,18 @@ function handleSubcomponentSection() {
   if (!currentSubcomponent) {
     currentSubcomponent = currentComponent.components[0];
   }
+
+  const value = `${currentSubcomponent.id}-${cleanupName(
+    componentList.find((v) => v.id == currentSubcomponent.id).name
+  )}`;
+  $(`#subcomponents-dropdown option[value=${value}]`).prop("selected", true);
+
   populateSubcomponentData(currentSubcomponent);
 }
 
 // manage loading the transformation section
 function handleTransformationSection() {
+  $("#transformations-dropdown").empty();
   $("#transformation-data :input").prop("disabled", false);
 
   // create a new transformation list
@@ -692,4 +799,43 @@ function getStructureNatureDropdownValue(nature) {
   if (nature === "effectively semi-permanent")
     return "Effectively-Semi-Permanent";
   return capitalize(nature);
+}
+
+// get a structure value into a valid structure nature string
+function getStructureNature(nature) {
+  if (nature === "Effectively Permanent") return "effectively permanent";
+  if (nature === "Semi-Permanent") return "semi-permanent";
+  if (nature === "Effectively Semi-Permanent")
+    return "effectively semi-permanent";
+  return nature.toLowerCase();
+}
+
+// get a connection type from a text value
+function getConType(connection) {
+  return connection.toLowerCase().replace(" ", "-");
+}
+
+// Verify that all components are interconnected in some way
+function dataHolisticCheck(componentList) {
+  // get a list of all ids
+  const idList = componentList.map((v) => v.id);
+
+  // perform the traversal;
+  // where the start happens is irrelevant, so just start from the first component in the list
+  const visitedList = holisticTraverse(
+    componentList,
+    componentList[0],
+    idList,
+    []
+  );
+
+  // compare the full list of ids to the largest connected list of components
+  if (visitedList.length !== idList.length) {
+    const unvisitedIds = idList.filter((v) => !visitedList.includes(v));
+    console.log(
+      `Cannot remove subcomponent without disconnecting other components from the overall intelligence. If this subcomponent is removed, then from id 0, the following component ids would not be reachable: ${unvisitedIds}`
+    );
+    return false;
+  }
+  return true;
 }
