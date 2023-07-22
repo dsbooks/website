@@ -243,12 +243,12 @@
       <!--The subcomponent management section-->
       <div class="dropdown-section" id="subcomponent-list">
         <form>
-          <label for="subcomponent-dropdown">Selected Subcomponent</label>
+          <label for="subcomponents-dropdown">Selected Subcomponent</label>
           <br />
           <select
             class="data-section-dropdown"
-            name="subcomponent-dropdown"
-            id="subcomponent-dropdown"
+            name="subcomponents-dropdown"
+            id="subcomponents-dropdown"
           ></select>
           <br />
           <button class="add-button" id="add-subcomponent-button" type="button">
@@ -269,7 +269,146 @@
         <div class="collapse-trigger" id="subcomponent-collapse">
           Subcomponent Data
         </div>
-        <div class="collapsible" id="subcomponent-data"></div>
+        <div class="collapsible" id="subcomponent-data">
+          <div class="data-row" id="sub-id-row">
+            Component ID
+            <select
+              class="id-dropdown"
+              id="sub-id-dropdown"
+              name="sub-id-dropdown"
+            ></select>
+            </div>
+          <div class="data-row" id="sub-wup-con-row">
+            Will Up Conn.
+            <select
+              class="option-dropdown connection-dropdown"
+              name="sub-wup-con-dropdown"
+              id="sub-wup-con-dropdown"
+            ></select>
+          </div>
+          <div class="data-row" id="sub-wup-degree-row">
+            Will Up Degree
+            <input
+              type="text"
+              class="spectrum-entry"
+              id="sub-wup-degree-entry"
+              name="sub-wup-degree-entry"
+            />
+          </div>
+          <div class="data-row" id="sub-wdown-con-row">
+            Will Down Conn.
+            <select
+              class="option-dropdown connection-dropdown"
+              name="sub-wdown-con-dropdown"
+              id="sub-wdown-con-dropdown"
+            ></select>
+          </div>
+          <div class="data-row" id="sub-wdown-degree-row">
+            Will Down Degree
+            <input
+              type="text"
+              class="spectrum-entry"
+              id="sub-wdown-degree-entry"
+              name="sub-wdown-degree-entry"
+            />
+          </div>
+          <div class="data-row" id="sub-kup-con-row">
+            Knowledge Up Conn.
+            <select
+              class="option-dropdown connection-dropdown"
+              name="sub-kup-con-dropdown"
+              id="sub-kup-con-dropdown"
+            ></select>
+          </div>
+          <div class="data-row" id="sub-kup-degree-row">
+            Knowledge Up Degree
+            <input
+              type="text"
+              class="spectrum-entry"
+              id="sub-kup-degree-entry"
+              name="sub-kup-degree-entry"
+            />
+          </div>
+          <div class="data-row" id="sub-kdown-con-row">
+            Knowledge Down Conn.
+            <select
+              class="option-dropdown connection-dropdown"
+              name="sub-kdown-con-dropdown"
+              id="sub-kdown-con-dropdown"
+            ></select>
+          </div>
+          <div class="data-row" id="sub-kdown-degree-row">
+            Knowledge Down Degree
+            <input
+              type="text"
+              class="spectrum-entry"
+              id="sub-kdown-degree-entry"
+              name="sub-kdown-degree-entry"
+            />
+          </div>
+          <div class="data-row" id="sub-pup-con-row">
+            Personality Up Conn.
+            <select
+              class="option-dropdown connection-dropdown"
+              name="sub-pup-con-dropdown"
+              id="sub-pup-con-dropdown"
+            ></select>
+          </div>
+          <div class="data-row" id="sub-pup-degree-row">
+            Personality Up Degree
+            <input
+              type="text"
+              class="spectrum-entry"
+              id="sub-pup-degree-entry"
+              name="sub-pup-degree-entry"
+            />
+          </div>
+          <div class="data-row" id="sub-pdown-con-row">
+            Personality Down Conn.
+            <select
+              class="option-dropdown connection-dropdown"
+              name="sub-pdown-con-dropdown"
+              id="sub-pdown-con-dropdown"
+            ></select>
+          </div>
+          <div class="data-row" id="sub-pdown-degree-row">
+            Personality Down Degree
+            <input
+              type="text"
+              class="spectrum-entry"
+              id="sub-pdown-degree-entry"
+              name="sub-pdown-degree-entry"
+            />
+          </div>
+          <div class="data-row" id="sub-nature-row">
+            Nature
+            <select
+              class="option-dropdown"
+              name="sub-nature-dropdown"
+              id="sub-nature-dropdown"
+            >
+              <option value="Permanent" id="sub-nature-perm">Permanent</option>
+              <option value="Effectively-Permanent" id="sub-nature-eperm">
+                Effectively Permanent
+              </option>
+              <option value="Semi-Permanent" id="sub-nature-semiperm">
+                Semi-Permanent
+              </option>
+              <option
+                value="Effectively-Semi-Permanent"
+                id="sub-nature-esemiperm"
+              >
+                Effectively Semi-Permanent
+              </option>
+              <option value="Reversible" id="sub-nature-reversible">
+                Reversible
+              </option>
+              <option value="Ephemeral" id="sub-nature-ephemeral">
+                Ephemeral
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>
     <div class="full-data-section" id="transformation-full-data-section">
@@ -350,7 +489,15 @@
 
 <script>
   load("ent.json");
-   // load the grid elements
+
+  // // to test connection validation failure
+  // load("con-test.json");
+  // // to test connection validation success
+  // load("con-test2.json");
+  // // to test connection validation success but cycle validation failure
+  // load("con-test3.json")
+
+  // load the grid elements
   $("#comp-type-grid").load("/hic/grids/comp-type-grid.html").hide();
   $("#fluid-type-grid").load("/hic/grids/fluid-type-grid.html").hide();
   $("#one-type-grid").load("/hic/grids/one-type-grid.html").hide();

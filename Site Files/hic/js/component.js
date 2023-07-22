@@ -2,6 +2,7 @@
 class Component {
   constructor(id) {
     this.id = id;
+    this.name = "unnamed";
     this.type = "1a";
     this.groupSummary = false;
     this.componentIdentity = 1;
@@ -10,13 +11,30 @@ class Component {
     this.assimilatedCount = 0;
     this.generatedCount = 0;
     this.otherCount = 0;
-    this.potentialTransformations = [];
+    this.transformations = [];
     this.siblings = [];
     this.components = [];
   }
 }
 
-class Subcomponent {}
+class Subcomponent {
+  constructor(id) {
+    this.id = id;
+    this.structureNature = "permanent";
+    this.parentWillUpConnection = "none";
+    this.parentWillDownConnection = "none";
+    this.parentWillUpDegree = 0;
+    this.parentWillDownDegree = 0;
+    this.parentKnowledgeUpConnection = "none";
+    this.parentKnowledgeDownConnection = "none";
+    this.parentKnowledgeUpDegree = 0;
+    this.parentKnowledgeDownDegree = 0;
+    this.parentPersonalityUpConnection = "none";
+    this.parentPersonalityDownConnection = "none";
+    this.parentPersonalityUpDegree = 0;
+    this.parentPersonalityDownDegree = 0;
+  }
+}
 
 class Sibling {}
 
@@ -67,6 +85,7 @@ const validConnectionTypes = [
   "on-demand-u",
   "on-demand-d",
   "none",
+  "variable",
 ];
 const validTransferTypes = ["up", "down", "both", "none"];
 const validTransformationNatures = ["reversible", "future", "past"];

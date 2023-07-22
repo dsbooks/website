@@ -4,12 +4,24 @@
 
 // validate the imported list of components
 function validate(data) {
+  if (!data || !Array.isArray(data) || !data.length) {
+    $("#valid").text("The data is either empty or not an array");
+    return false;
+  }
   if (!valueCheck(data)) {
     $("#valid").text("The data has invalid values");
     return false;
   }
   if (!consistencyCheck(data)) {
-    $("#valid").text("The data is inconsistent");
+    $("#valid").text("The sibling data is inconsistent");
+    return false;
+  }
+  if (!holisticCheck(data)) {
+    $("#valid").text("Some components are disconnected");
+    return false;
+  }
+  if (!cycleCheck(data)) {
+    $("#valid").text("There are cyclical subcomponent relationships");
     return false;
   }
   $("#valid").text("The data is valid");
@@ -21,7 +33,7 @@ function valueCheck(componentList) {
   if (!validateIds(componentList)) {
     return false;
   }
-  for (var i = 0; i < componentList.length; i++) {
+  for (let i = 0; i < componentList.length; i++) {
     if (!componentValueCheck(componentList[i])) {
       return false;
     }
@@ -69,21 +81,23 @@ function componentValueCheck(component) {
   if (!validateIdentity(component, "collectiveIdentity")) return false;
   if (!validateComponentExchangeAllowed(component, "componentExchangeAllowed"))
     return false;
+
   if (!validateDegree(component, "sharedWillDegree")) return false;
   if (!validateDegree(component, "sharedKnowledgeDegree")) return false;
   if (!validateDegree(component, "sharedPersonalityDegree")) return false;
   if (!validatePotentialTransformations(component, "transformations"))
     return false;
   if (!validateSiblings(component, "siblings")) return false;
-  if (!validateComponents(component, "components")) return false;
+  if (!validateSubcomponents(component, "components")) return false;
 
   return true;
 }
 
-// Ensure that data is consistent between siblings; note that all sibling entries should have been verified to be valid
+// Ensure that data is consistent between siblings;
+// note that all sibling entries should have been verified to be valid
 // at this point by the valueCheck function, so we don't check for that here
 function consistencyCheck(componentList) {
-  for (var i = 0; i < componentList.length; i++) {
+  for (let i = 0; i < componentList.length; i++) {
     let component = componentList[i];
 
     // make a list of all sibling entries from the component list
@@ -91,7 +105,7 @@ function consistencyCheck(componentList) {
     let siblingEntries = componentList.filter((v) => siblingIds.includes(v.id));
 
     // iterate over all siblings for the current component
-    for (var j = 0; j < component.siblings.length; j++) {
+    for (let j = 0; j < component.siblings.length; j++) {
       // get the component's view of a specific sibling
       let compPerspective = component.siblings[j];
 
@@ -106,6 +120,43 @@ function consistencyCheck(componentList) {
         return false;
     }
   }
+  return true;
+}
+
+// Verify that all components are interconnected in some way
+function holisticCheck(componentList) {
+  // get a list of all ids
+  const idList = componentList.map((v) => v.id);
+
+  // perform the traversal;
+  // where the start happens is irrelevant, so just start from the first component in the list
+  const visitedList = holisticTraverse(
+    componentList,
+    componentList[0],
+    idList,
+    []
+  );
+
+  // compare the full list of ids to the largest connected list of components
+  if (visitedList.length !== idList.length) {
+    const unvisitedIds = idList.filter((v) => !visitedList.includes(v));
+    console.log(
+      `The intelligence is disconnected. From id 0, the following component ids could not be reached: ${unvisitedIds}`
+    );
+    return false;
+  }
+  return true;
+}
+
+// traverse through the componentList and make sure that there are no cyclical subcomponent relationships
+function cycleCheck(componentList) {
+  // need to stop if a cycle is found
+  for (let i = 0; i < componentList.length; i++) {
+    if (!cycleCheckTraversal(componentList, componentList[i], [])) {
+      return false;
+    }
+  }
+
   return true;
 }
 
@@ -313,7 +364,7 @@ function validateDegree(component, key) {
 // this function makes sure that all ids are valid and that there are not duplicate ids
 function validateIds(componentList) {
   // first check for invalid ids
-  for (var i = 0; i < componentList.length; i++) {
+  for (let i = 0; i < componentList.length; i++) {
     if (
       typeof componentList[i].id !== "number" ||
       !Number.isInteger(componentList[i].id) ||
@@ -342,8 +393,8 @@ function validateIds(componentList) {
     }
   }
   // then check for duplicate ids
-  for (var i = 0; i < componentList.length - 1; i++) {
-    for (var j = i + 1; j < componentList.length; j++) {
+  for (let i = 0; i < componentList.length - 1; i++) {
+    for (let j = i + 1; j < componentList.length; j++) {
       if (componentList[i].id === componentList[j].id) {
         console.log(
           `Duplicate ids detected for id ${componentList[i].id}; ${componentList[i].name} and ${componentList[j].name} have the same id.`
@@ -354,7 +405,7 @@ function validateIds(componentList) {
   }
   // finally make sure that no sibling/components lists have ids that are not in the main components list
   const validIds = componentList.map((v) => v.id);
-  for (var i = 0; i < componentList.length; i++) {
+  for (let i = 0; i < componentList.length; i++) {
     if (
       !validateSubIdReferences(
         componentList[i],
@@ -378,7 +429,7 @@ function validateIds(componentList) {
 
 // make sure that all potential transformation entries are valid
 function validatePotentialTransformations(component, key) {
-  for (var i = 0; i < component[key].length; i++) {
+  for (let i = 0; i < component[key].length; i++) {
     if (!validStructureTypes.includes(component[key][i].type)) {
       console.log(
         `component id ${component.id}, name ${component.name} has an invalid type for a transformation entry. ${component[key][i].type} is not a valid structure type.`
@@ -401,7 +452,7 @@ function validatePotentialTransformations(component, key) {
 
 // make sure that all sibling entries are valid; no need to check ids at this point as other checks handle that
 function validateSiblings(component, key) {
-  for (var i = 0; i < component[key].length; i++) {
+  for (let i = 0; i < component[key].length; i++) {
     let sibling = component[key][i];
     // validate transfer properties first
     if (!validTransferTypes.includes(sibling.siblingAssimilationDirection)) {
@@ -442,19 +493,12 @@ function validateSiblings(component, key) {
     )
       return false;
     // validate all connection degrees last
-    if (!validateConnectionDegree(component, sibling, "siblingWillUpDegree"))
-      return false;
-    if (!validateConnectionDegree(component, sibling, "siblingWillDownDegree"))
-      return false;
-    if (
-      !validateConnectionDegree(component, sibling, "siblingKnowledgeUpDegree")
-    )
-      return false;
     if (
       !validateConnectionDegree(
         component,
         sibling,
-        "siblingKnowledgeDownDegree"
+        "siblingWillUpDegree",
+        "siblingWillUpConnection"
       )
     )
       return false;
@@ -462,7 +506,8 @@ function validateSiblings(component, key) {
       !validateConnectionDegree(
         component,
         sibling,
-        "siblingPersonalityUpDegree"
+        "siblingWillDownDegree",
+        "siblingWillDownConnection"
       )
     )
       return false;
@@ -470,7 +515,35 @@ function validateSiblings(component, key) {
       !validateConnectionDegree(
         component,
         sibling,
-        "siblingPersonalityDownDegree"
+        "siblingKnowledgeUpDegree",
+        "siblingKnowledgeUpConnection"
+      )
+    )
+      return false;
+    if (
+      !validateConnectionDegree(
+        component,
+        sibling,
+        "siblingKnowledgeDownDegree",
+        "siblingKnowledgeDownConnection"
+      )
+    )
+      return false;
+    if (
+      !validateConnectionDegree(
+        component,
+        sibling,
+        "siblingPersonalityUpDegree",
+        "siblingPersonalityUpConnection"
+      )
+    )
+      return false;
+    if (
+      !validateConnectionDegree(
+        component,
+        sibling,
+        "siblingPersonalityDownDegree",
+        "siblingPersonalityDownConnection"
       )
     )
       return false;
@@ -478,9 +551,9 @@ function validateSiblings(component, key) {
   return true;
 }
 
-// make sure that all sibling entries are valid; no need to check ids at this point as other checks handle that
-function validateComponents(component, key) {
-  for (var i = 0; i < component[key].length; i++) {
+// make sure that all subcomponent entries are valid; no need to check ids at this point as other checks handle that
+function validateSubcomponents(component, key) {
+  for (let i = 0; i < component[key].length; i++) {
     let subComp = component[key][i];
     // validate structure nature first
     if (!validStructureNatures.includes(subComp.structureNature)) {
@@ -509,27 +582,57 @@ function validateComponents(component, key) {
     )
       return false;
     // validate all connection degrees last
-    if (!validateConnectionDegree(component, subComp, "parentWillUpDegree"))
-      return false;
-    if (!validateConnectionDegree(component, subComp, "parentWillDownDegree"))
-      return false;
     if (
-      !validateConnectionDegree(component, subComp, "parentKnowledgeUpDegree")
-    )
-      return false;
-    if (
-      !validateConnectionDegree(component, subComp, "parentKnowledgeDownDegree")
-    )
-      return false;
-    if (
-      !validateConnectionDegree(component, subComp, "parentPersonalityUpDegree")
+      !validateConnectionDegree(
+        component,
+        subComp,
+        "parentWillUpDegree",
+        "parentWillUpConnection"
+      )
     )
       return false;
     if (
       !validateConnectionDegree(
         component,
         subComp,
-        "parentPersonalityDownDegree"
+        "parentWillDownDegree",
+        "parentWillDownConnection"
+      )
+    )
+      return false;
+    if (
+      !validateConnectionDegree(
+        component,
+        subComp,
+        "parentKnowledgeUpDegree",
+        "parentKnowledgeUpConnection"
+      )
+    )
+      return false;
+    if (
+      !validateConnectionDegree(
+        component,
+        subComp,
+        "parentKnowledgeDownDegree",
+        "parentKnowledgeDownConnection"
+      )
+    )
+      return false;
+    if (
+      !validateConnectionDegree(
+        component,
+        subComp,
+        "parentPersonalityUpDegree",
+        "parentPersonalityUpConnection"
+      )
+    )
+      return false;
+    if (
+      !validateConnectionDegree(
+        component,
+        subComp,
+        "parentPersonalityDownDegree",
+        "parentPersonalityDownConnection"
       )
     )
       return false;
@@ -541,9 +644,10 @@ function validateComponents(component, key) {
 // SIBLING CONSISTENCY FUNCTIONS                                                         //
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-// compare two siblings and make certain that their relationship is symmetric
+// compare two siblings and make certain that their relationship is symmetric;
+// note that siblings do not necessarily need to share parents, so don't check for that
 function compareSiblings(a, b, aView, bView) {
-  // first compare transfer directions
+  // compare transfer directions
   if (
     !compareTransferDirections(
       a,
@@ -599,7 +703,7 @@ function compareSiblings(a, b, aView, bView) {
     )
   )
     return false;
-  // finally compare connection degrees
+  // compare connection degrees
   if (
     !compareConnectionDegrees(
       a,
@@ -681,6 +785,99 @@ function compareConnectionDegrees(a, b, aView, bView, conKey1, conKey2) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+// COMPONENT NETWORK HOLISTIC AND CYCLIC CHECK FUNCTIONS                                 //
+///////////////////////////////////////////////////////////////////////////////////////////
+
+// traverse through siblings and subcomponents to try and reach everywhere. Afterwards,
+// search for parents that might have been missed
+function holisticTraverse(
+  componentList,
+  currentComponent,
+  idList,
+  visitedList
+) {
+  // first, be sure to add the current id to the visitedList
+  visitedList.push(currentComponent.id);
+
+  // next, traverse all subcomponents
+  for (let i = 0; i < currentComponent.components.length; i++) {
+    const consideredComponent = currentComponent.components[i];
+
+    if (!visitedList.includes(consideredComponent.id)) {
+      const nextComponent = componentList.find(
+        (v) => v.id === consideredComponent.id
+      );
+      visitedList = holisticTraverse(
+        componentList,
+        nextComponent,
+        idList,
+        visitedList
+      );
+    }
+  }
+
+  // then, traverse all siblings
+  for (let i = 0; i < currentComponent.siblings.length; i++) {
+    const consideredComponent = currentComponent.siblings[i];
+
+    if (!visitedList.includes(consideredComponent.id)) {
+      const nextComponent = componentList.find(
+        (v) => v.id === consideredComponent.id
+      );
+      visitedList = holisticTraverse(
+        componentList,
+        nextComponent,
+        idList,
+        visitedList
+      );
+    }
+  }
+
+  // finally search for parents and perform the traversal through them if they can be found
+  for (let i = 0; i < componentList.length; i++) {
+    const parent = componentList[i].components.find(
+      (v) => v.id === currentComponent.id
+    );
+    if (!visitedList.includes(componentList[i].id) && parent) {
+      visitedList = holisticTraverse(
+        componentList,
+        componentList[i],
+        idList,
+        visitedList
+      );
+    }
+  }
+
+  return visitedList;
+}
+
+// traverse through a component's subcomponents and make sure that there are no cyclical subcomponent relationships;
+// return false if a cycle is found (bad) and true if no cycle is found
+function cycleCheckTraversal(componentList, component, path) {
+  const newPath = path.map((v) => v);
+  newPath.push(component.id);
+
+  // traverse all subcomponents
+  for (let i = 0; i < component.components.length; i++) {
+    const nextComponent = componentList.find(
+      (v) => v.id === component.components[i].id
+    );
+    if (path.includes(nextComponent.id)) {
+      newPath.push(nextComponent.id);
+      const cycle = newPath.slice(newPath.indexOf(nextComponent.id));
+      console.log(
+        `The intelligence has cyclic subcomponents. The following id cycle was discovered: ${cycle}`
+      );
+      return false;
+    } else if (!cycleCheckTraversal(componentList, nextComponent, newPath)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
 // HELPER FUNCTIONS                                                                      //
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -699,7 +896,7 @@ function hasProperCounts(component) {
 
 // make sure that all sibling and components lists have valid id numbers
 function validateSubIds(component, list, type) {
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     if (
       typeof list[i].id !== "number" ||
       !Number.isInteger(list[i].id) ||
@@ -718,7 +915,7 @@ function validateSubIds(component, list, type) {
 function validateSubIdReferences(component, validIds, list) {
   if (Array.isArray(list)) {
     let referencedIds = list.map((v) => v.id);
-    for (var j = 0; j < referencedIds.length; j++) {
+    for (let j = 0; j < referencedIds.length; j++) {
       if (!validIds.includes(referencedIds[j])) {
         console.log(
           `Invalid id detected for id ${component.id}, name ${component.name} inside of the siblings entry. The id ${referencedIds[j]} does not refer to any component.`
@@ -741,12 +938,62 @@ function validateConnection(component, connectionComponent, connection) {
   return true;
 }
 
-// validate a connection degree and print an error message if it is bad
-function validateConnectionDegree(component, connectionComponent, connection) {
-  const degree = connectionComponent[connection];
-  if (!validateDegree(degree)) {
+// validate a connection degree and print an error message if it is bad;
+// both connectionDegree and connectionType are keys, not actual values
+function validateConnectionDegree(
+  component,
+  connectionComponent,
+  connectionDegree,
+  connectionType
+) {
+  const degree = connectionComponent[connectionDegree];
+  if (!validateDegreeNumber(degree)) {
     console.log(
-      `component id ${component.id}, name ${component.name} has an invalid ${connection} for other component id of ${connectionComponent.id}.\nThe degree is ${degree}, but it must be a number between 0 and 1.`
+      `component id ${component.id}, name ${component.name} has an invalid ${connectionDegree} for other component id of ${connectionComponent.id}.\nThe degree is ${degree}, but it must be a number between 0 and 1.`
+    );
+    return false;
+  }
+  if (
+    !validateConnectionDegreeCombo(
+      component,
+      connectionComponent,
+      connectionDegree,
+      connectionType
+    )
+  ) {
+    return false;
+  }
+  return true;
+}
+
+// validates a count value
+function validateCount(number) {
+  return typeof number === "number" && number >= 0 && Number.isInteger(number);
+}
+
+// validates that a degree value is in the proper range
+function validateDegreeNumber(degree) {
+  return typeof degree === "number" && degree >= 0 && degree <= 1;
+}
+
+// validates that a particular connection type has a valid degree number for that type;
+// both connectionDegree and connectionType are keys, not actual values
+function validateConnectionDegreeCombo(
+  component,
+  connectionComponent,
+  connectionDegree,
+  connectionType
+) {
+  const degree = connectionComponent[connectionDegree];
+  const type = connectionComponent[connectionType];
+  if (type === "none" && degree !== 0) {
+    console.log(
+      `component id ${component.id}, name ${component.name} has an invalid ${connectionDegree} for other component id of ${connectionComponent.id}.\nThe degree is ${degree}, but the connection type is ${type}, which must have a degree of 0.`
+    );
+    return false;
+  } else if (type !== "none" && degree === 0) {
+    console.log(
+      `component id ${component.id}, name ${component.name} has an invalid ${connectionDegree} for other component id of ${connectionComponent.id}.\nThe degree is ${degree}, but the connection type is ${type}, which must have a degree greater than 0.`
     );
     return false;
   }

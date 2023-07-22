@@ -3,6 +3,12 @@ body {
   --container-width: 320px;
 }
 
+input[type="checkbox"],
+button,
+select {
+  cursor: pointer;
+}
+
 #data-container {
   width: var(--container-width);
   max-height: 90%;
@@ -47,6 +53,11 @@ body {
 .spectrum-entry {
   width: 45px;
   text-align: right;
+}
+
+.id-dropdown {
+  width: 180px;
+  float: right;
 }
 
 .count-entry {
@@ -203,4 +214,5 @@ body {
   color: #000;
   font-weight: 300;
   font-family: Arial, sans-serif;
+  cursor: pointer;
 }

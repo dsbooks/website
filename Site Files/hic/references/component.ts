@@ -30,7 +30,7 @@ export interface Component {
   sharedPersonalityDegree: number | undefined; // the degree to which a common personality is shared amongst all instances of this type of component within the same parent collective (0 for none, 1 for 100%)
   componentExchangeAllowed: boolean | undefined; // whether or not instances of this type of component can be shared between one another (restricted to only components sharing the same parent collective)
   fluidRange: [string]; // the base structures that the component can mimic (including hybridizing structures) if applicable
-  potentialTransformations: [
+  transformations: [
     // the potential fundamental transformations that this component's structure can undergo; note that "reversible" transformations should only be listed if the component has a history of regularly making use of that transformation. Furthermore, this does NOT include transformations due to the intelligence being fluid. These transformations must either be irreversible or induced by outside forces.
     {
       type: string; // the structure type
