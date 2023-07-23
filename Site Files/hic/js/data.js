@@ -60,6 +60,9 @@ function selectComponent() {
 
   if (found === currentComponent) return;
   currentComponent = found;
+  currentSubcomponent = null;
+  currentSibling = null;
+  currentTransformation = null;
   populateDataFields(componentList);
 }
 
@@ -80,7 +83,9 @@ function addComponent() {
 }
 
 // delete the currently selected component and all sibling/subcomponent references to the component
-function deleteComponent() {}
+function deleteComponent() {
+  // TODO: implement the deleteComponent function
+}
 
 // select a transformation when clicked on and repopulate data fields based on this transformation
 function selectTransformation() {
@@ -449,20 +454,16 @@ function populateDataFields(componentList) {
 
   if (componentList.length) {
     // create a new component list
-    handleComponentSection(componentList);
+    handleComponentSection();
 
     if (currentComponent.siblings.length) {
-      $("#sibling-data :input").prop("disabled", false);
-      // create a new sibling list
-
-      currentSibling = currentComponent.siblings[0];
-      populateSiblingData(currentSibling);
+      handleSiblingSection();
     }
     if (currentComponent.components.length) {
-      handleSubcomponentSection(componentList);
+      handleSubcomponentSection();
     }
     if (currentComponent.transformations.length) {
-      handleTransformationSection(componentList);
+      handleTransformationSection();
     }
   } else {
     clearComponentEntries();
@@ -511,7 +512,64 @@ function populateComponentData(comp) {
 }
 
 // populate all data fields for a specific sibling
-function populateSiblingData(sib) {}
+function populateSiblingData(sib) {
+  // make sure that the options are created
+  constructConnectionOptionsForSiblings();
+
+  const fullCurrentSibling = componentList.find((v) => v.id === sib.id);
+
+  // need the id entry to be a dropdown list consisting of all valid (not-yet-used) components
+  const foundComponents = componentList.filter(
+    (v) => !currentComponent.siblings.find((sv) => sv.id === v.id)
+  );
+
+  // be sure to add the current sibling to the list
+  if (!foundComponents.includes(fullCurrentSibling)) {
+    foundComponents.unshift(fullCurrentSibling);
+  }
+  foundComponents.sort((a, b) => Number(a.id) - Number(b.id));
+
+  // finally, make the dropdown list
+  $("#sib-id-dropdown").empty();
+  foundComponents.forEach((element) => {
+    let label = `${element.id}: ${element.name}`;
+    let value = `${element.id}-${cleanupName(element.name)}`;
+    $("<option>")
+      .attr("value", value)
+      .attr("id", `sib-${value}`)
+      .text(label)
+      .appendTo("#sib-id-dropdown");
+  });
+  // and select the current subcomponent id from the list
+  let value = `${sib.id}-${cleanupName(fullCurrentSibling.name)}`;
+  $(`#sib-id-dropdown option[value=${value}]`).prop("selected", true);
+
+  // populate all other dropdown lists
+  value = capitalize(sib.siblingAssimilationDirection);
+  $(`#sib-assim-dir-dropdown option[value=${value}]`).prop("selected", true);
+  value = capitalize(sib.siblingComponentExchangeDirection);
+  $(`#sib-xchng-dir-dropdown option[value=${value}]`).prop("selected", true);
+  value = getConnDropdownValue(sib.siblingWillUpConnection);
+  $(`#sib-wup-con-dropdown option[value=${value}]`).prop("selected", true);
+  value = getConnDropdownValue(sib.siblingWillDownConnection);
+  $(`#sib-wdown-con-dropdown option[value=${value}]`).prop("selected", true);
+  value = getConnDropdownValue(sib.siblingKnowledgeUpConnection);
+  $(`#sib-kup-con-dropdown option[value=${value}]`).prop("selected", true);
+  value = getConnDropdownValue(sib.siblingKnowledgeDownConnection);
+  $(`#sib-kdown-con-dropdown option[value=${value}]`).prop("selected", true);
+  value = getConnDropdownValue(sib.siblingPersonalityUpConnection);
+  $(`#sib-pup-con-dropdown option[value=${value}]`).prop("selected", true);
+  value = getConnDropdownValue(sib.siblingPersonalityDownConnection);
+  $(`#sib-pdown-con-dropdown option[value=${value}]`).prop("selected", true);
+
+  // populate all degree entries
+  $("#sib-wup-degree-entry").val(sib.siblingWillUpDegree);
+  $("#sib-wdown-degree-entry").val(sib.siblingWillDownDegree);
+  $("#sib-kup-degree-entry").val(sib.siblingKnowledgeUpDegree);
+  $("#sib-kdown-degree-entry").val(sib.siblingKnowledgeDownDegree);
+  $("#sib-pup-degree-entry").val(sib.siblingPersonalityUpDegree);
+  $("#sib-pdown-degree-entry").val(sib.siblingPersonalityDownDegree);
+}
 
 // populate all data fields for a specific subcomponent
 function populateSubcomponentData(sub) {
@@ -530,7 +588,6 @@ function populateSubcomponentData(sub) {
     })
   );
   // be sure to add the current subcomponent to the list
-  // TODO (make sure that the current component is not already on the list somehow)
   if (!foundComponents.includes(fullCurrentSubcomponent)) {
     foundComponents.unshift(fullCurrentSubcomponent);
   }
@@ -543,7 +600,7 @@ function populateSubcomponentData(sub) {
     let value = `${element.id}-${cleanupName(element.name)}`;
     $("<option>")
       .attr("value", value)
-      .attr("id", `comp-${value}`)
+      .attr("id", `sub-${value}`)
       .text(label)
       .appendTo("#sub-id-dropdown");
   });
@@ -584,7 +641,7 @@ function populateTransformationData(trans) {
 }
 
 // manage loading the component section;
-function handleComponentSection(componentList) {
+function handleComponentSection() {
   componentList.forEach((element) => {
     let label = `${element.id}: ${element.name}`;
     let value = `${element.id}-${cleanupName(element.name)}`;
@@ -604,6 +661,35 @@ function handleComponentSection(componentList) {
   $(`#components-dropdown option[value=${value}]`).prop("selected", true);
 
   populateComponentData(currentComponent);
+}
+
+// manage loading the sibling section
+function handleSiblingSection() {
+  $("#siblings-dropdown").empty();
+  $("#sibling-data :input").prop("disabled", false);
+
+  // create a new sibling list after sorting the siblings
+  currentComponent.siblings.sort((a, b) => Number(a.id) - Number(b.id));
+  for (let i = 0; i < currentComponent.siblings.length; i++) {
+    let s = currentComponent.siblings[i];
+    let matchingComp = componentList.find((v) => v.id === s.id);
+    let label = `${matchingComp.id}: ${matchingComp.name}`;
+    let value = `${matchingComp.id}-${cleanupName(matchingComp.name)}`;
+    $("<option>")
+      .attr("value", value)
+      .attr("id", `sib-${value}`)
+      .text(label)
+      .appendTo("#siblings-dropdown");
+  }
+  if (!currentSibling) {
+    currentSibling = currentComponent.siblings[0];
+  }
+
+  const value = `${currentSibling.id}-${cleanupName(
+    componentList.find((v) => v.id == currentSibling.id).name
+  )}`;
+  $(`#siblings-dropdown option[value=${value}]`).prop("selected", true);
+  populateSiblingData(currentSibling);
 }
 
 // manage loading the subcomponent section
@@ -671,7 +757,7 @@ function download(content, fileName, contentType) {
 // HELPER FUNCTIONS                                                                      //
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-// construct all options for connection types
+// construct all options for connection types for subcomponents
 function constructConnectionOptionsForSubcomponents() {
   // call the "constructor" function for every connection type
   constructConnectionOptionsForId("#sub-wup-con-dropdown");
@@ -680,6 +766,16 @@ function constructConnectionOptionsForSubcomponents() {
   constructConnectionOptionsForId("#sub-kdown-con-dropdown");
   constructConnectionOptionsForId("#sub-pup-con-dropdown");
   constructConnectionOptionsForId("#sub-pdown-con-dropdown");
+}
+
+// construct all options for connection types for siblings
+function constructConnectionOptionsForSiblings() {
+  constructConnectionOptionsForId("#sib-wup-con-dropdown");
+  constructConnectionOptionsForId("#sib-wdown-con-dropdown");
+  constructConnectionOptionsForId("#sib-kup-con-dropdown");
+  constructConnectionOptionsForId("#sib-kdown-con-dropdown");
+  constructConnectionOptionsForId("#sib-pup-con-dropdown");
+  constructConnectionOptionsForId("#sib-pdown-con-dropdown");
 }
 
 // actually create specific options for a specific id

@@ -745,14 +745,14 @@ function compareSiblings(a, b, aView, bView) {
 function compareTransferDirections(a, b, aView, bView, transferKey) {
   if (
     (aView[transferKey] === "none" && bView[transferKey] === "none") ||
-    (aView[transferKey] === "both" && bView[transferKey] === "both") ||
+    (aView[transferKey] === "open" && bView[transferKey] === "open") ||
     (aView[transferKey] === "up" && bView[transferKey] === "down") ||
     (aView[transferKey] === "down" && bView[transferKey] === "up")
   )
     return true;
 
   console.log(
-    `Component id ${a.id} and component id ${b.id} have inconsistent ${transferKey} values of ${aView[transferKey]} and ${bView[transferKey]} respectively.\nEither both must be "none", both must be "both", or one must be "up" and the other "down".`
+    `Component id ${a.id} and component id ${b.id} have inconsistent ${transferKey} values of ${aView[transferKey]} and ${bView[transferKey]} respectively.\nEither both must be "none", both must be "open", or one must be "up" and the other "down".`
   );
   return false;
 }

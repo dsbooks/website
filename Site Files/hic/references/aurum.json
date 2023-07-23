@@ -229,7 +229,7 @@
       {
         "id": 3,
         "siblingAssimilationDirection": "none",
-        "siblingComponentExchangeDirection": "both",
+        "siblingComponentExchangeDirection": "open",
         "siblingWillUpConnection": "none",
         "siblingWillDownConnection": "on-demand-u",
         "siblingWillUpDegree": 0,
@@ -334,8 +334,8 @@
     "name": "Seirfae Collective",
     "type": "7b",
     "groupSummary": false,
-    "componentIdentity": 1,
-    "collectiveIdentity": 0,
+    "componentIdentity": 0.99,
+    "collectiveIdentity": 0.2,
     "originalCount": 0,
     "assimilatedCount": 0,
     "generatedCount": 1,
@@ -364,7 +364,7 @@
       {
         "id": 2,
         "siblingAssimilationDirection": "none",
-        "siblingComponentExchangeDirection": "both",
+        "siblingComponentExchangeDirection": "open",
         "siblingWillUpConnection": "on-demand-d",
         "siblingWillDownConnection": "none",
         "siblingWillUpDegree": 0.1,

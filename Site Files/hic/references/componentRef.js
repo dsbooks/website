@@ -41,8 +41,8 @@ const ComponentRef = {
     // the list of non-identical sibling component types
     {
       id: "number", // the id of the sibling
-      siblingAssimilationDirection: "string", // the direction that this sibling may assimilate or be assimilated by its siblings ("down" if the sibling can assimilate the current component, "up" if it can be assimiliated by the current component, "both" if it can do both, "none" if assimilation is impossible)
-      siblingComponentExchangeDirection: "string", // the direction that this sibling may share components ("down" if the sibling can receive components, "up" if it can donate components, "both" if it can do both, "none" if components cannot be shared)
+      siblingAssimilationDirection: "string", // the direction that this sibling may assimilate or be assimilated by its siblings ("down" if the sibling can assimilate the current component, "up" if it can be assimiliated by the current component, "open" if it can do both, "none" if assimilation is impossible)
+      siblingComponentExchangeDirection: "string", // the direction that this sibling may share components ("down" if the sibling can receive components, "up" if it can donate components, "open" if it can do both, "none" if components cannot be shared)
       siblingWillUpConnection: "string", // the connection type for imposing will onto the siblings in question
       siblingWillDownConnection: "string", // the connection type for the siblings in question imposing their will onto this component
       siblingWillUpDegree: "number", // the degree to which the component can impose its will on its siblings (0 - 1)

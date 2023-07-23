@@ -36,7 +36,25 @@ class Subcomponent {
   }
 }
 
-class Sibling {}
+class Sibling {
+  constructor(id) {
+    this.id = id;
+    this.siblingAssimilationDirection = "none";
+    this.siblingComponentExchangeDirection = "none";
+    this.siblingWillUpConnection = "none";
+    this.siblingWillDownConnection = "none";
+    this.siblingWillUpDegree = 0;
+    this.siblingWillDownDegree = 0;
+    this.siblingKnowledgeUpConnection = "none";
+    this.siblingKnowledgeDownConnection = "none";
+    this.siblingKnowledgeUpDegree = 0;
+    this.siblingKnowledgeDownDegree = 0;
+    this.siblingPersonalityUpConnection = "none";
+    this.siblingPersonalityDownConnection = "none";
+    this.siblingPersonalityUpDegree = 0;
+    this.siblingPersonalityDownDegree = 0;
+  }
+}
 
 class Transformation {
   constructor(type = "1a", nature = "past") {
@@ -87,7 +105,7 @@ const validConnectionTypes = [
   "none",
   "variable",
 ];
-const validTransferTypes = ["up", "down", "both", "none"];
+const validTransferTypes = ["up", "down", "open", "none"];
 const validTransformationNatures = ["reversible", "future", "past"];
 const validStructureNatures = [
   "permanent",
