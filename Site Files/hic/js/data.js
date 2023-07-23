@@ -16,6 +16,10 @@ $(() => {
   $("#add-subcomponent-button").click(addSubcomponent);
   $("#delete-subcomponent-button").click(deleteSubcomponent);
 
+  $("#siblings-dropdown").change(selectSibling);
+  $("#add-sibling-button").click(addSibling);
+  $("#delete-sibling-button").click(deleteSibling);
+
   // TODO: for both sibling and component delete, the holistic check will be required
 
   $("#transformations-dropdown").change(selectTransformation);
@@ -136,6 +140,8 @@ function deleteTransformation() {
     currentTransformation = null;
     clearTransformationEntries();
     $("#transformations-dropdown").empty();
+    $("#transformation-data :input").prop("disabled", true);
+    return;
   }
   // otherwise, keep the same index unless the index is now past the end, in which case go back by 1
   else if (index === currentComponent.transformations.length) {
@@ -219,7 +225,7 @@ function addSubcomponent() {
   currentSubcomponent =
     currentComponent.components[currentComponent.components.length - 1];
 
-  populateSubcomponentData(currentSubcomponent);
+  handleSubcomponentSection(currentSubcomponent);
 }
 
 // delete the currently selected subcomponent
@@ -235,11 +241,13 @@ function deleteSubcomponent() {
     currentComponent.components = backupSubList;
     return;
   }
-  // if the number of transformations is now 0, then clear the currentTransformation data
+  // if the number of subcomponents is now 0, then clear the currentSubcomponent data
   if (currentComponent.components.length === 0) {
     currentSubcomponent = null;
     clearSubcomponentEntries();
     $("#subcomponents-dropdown").empty();
+    $("#subcomponent-data :input").prop("disabled", true);
+    return;
   }
   // otherwise, keep the same index unless the index is now past the end, in which case go back by 1
   else if (index === currentComponent.components.length) {
@@ -258,6 +266,113 @@ function deleteSubcomponent() {
     $(`#subcomponents-dropdown option[value=${value}]`).prop("selected", true);
   }
   populateSubcomponentData(currentSubcomponent);
+}
+
+// select a sibling when clicked on and repopulate data fields based on this sibling
+function selectSibling() {
+  let id = $(this)
+    .find("option:selected")
+    .text()
+    .replace(/(^\d+)(.+$)/i, "$1");
+
+  currentSibling = currentComponent.siblings.find((v) => v.id == id);
+
+  populateSiblingData(currentSibling);
+}
+
+// add a new, default sibling
+function addSibling() {
+  // don't do anything if there isn't a component to add transformations to
+  if (!currentComponent) return;
+  // also return if every other component is already a sibling of this component
+  if (currentComponent.siblings.length === componentList.length - 1) {
+    console.log("There are no components that are not already siblings.");
+    return;
+  }
+
+  // find all valid potential siblings
+  const foundComponent = componentList.filter(
+    (v) => !currentComponent.siblings.find((sv) => sv.id === v.id)
+  )[0];
+
+  $("#sibling-data :input").prop("disabled", false);
+
+  // create a new sibling and option for this sibling list
+  const label = `${foundComponent.id}: ${foundComponent.name}`;
+  const value = `${foundComponent.id}-${cleanupName(foundComponent.name)}`;
+
+  currentComponent.siblings.push(new Sibling(foundComponent.id));
+  $("<option>")
+    .attr("value", value)
+    .attr("id", "sub-" + value)
+    .text(label)
+    .appendTo("#siblings-dropdown");
+
+  // assign the new sibling to currentSibling
+  currentSibling =
+    currentComponent.siblings[currentComponent.siblings.length - 1];
+
+  // create a new sibling for the sibling's component entry (since they have to matc)
+  const fullSibling = componentList.find((v) => v.id === currentSibling.id);
+  fullSibling.siblings.push(new Sibling(currentComponent.id));
+
+  // select the new sibling and repopulate based on it
+  $(`#siblings-dropdown`).val(value);
+
+  handleSiblingSection(currentSibling);
+}
+
+// delete the currently selected sibling
+function deleteSibling() {
+  // first find the sibling's full component and the matching sibling entry for the sibling
+  const fullCurrentSibling = componentList.find(
+    (v) => v.id === currentSibling.id
+  );
+  const currentComponentSiblingEntry = fullCurrentSibling.siblings.find(
+    (v) => v.id === currentComponent.id
+  );
+
+  // next, begin the removal process
+  let index1 = currentComponent.siblings.indexOf(currentSibling);
+  let index2 = fullCurrentSibling.siblings.indexOf(
+    currentComponentSiblingEntry
+  );
+
+  const backupSibList1 = currentComponent.siblings.map((v) => v);
+  const backupSibList2 = fullCurrentSibling.siblings.map((v) => v);
+
+  currentComponent.siblings.splice(index1, 1);
+  fullCurrentSibling.siblings.splice(index2, 1);
+
+  // if the removal would separate some components from the overall intelligence, then undo it
+  if (!dataHolisticCheck(componentList)) {
+    currentComponent.siblings = backupSibList1;
+    fullCurrentSibling.siblings = backupSibList2;
+    return;
+  }
+  // if the number of siblings is now 0, then clear the currentSibling data
+  if (currentComponent.siblings.length === 0) {
+    currentSibling = null;
+    clearSiblingEntries();
+    $("#siblings-dropdown").empty();
+    $("#sibling-data :input").prop("disabled", true);
+    return;
+  }
+  // otherwise, keep the same index unless the index is now past the end, in which case go back by 1
+  else if (index1 === currentComponent.siblings.length) {
+    index1--;
+    currentSibling = currentComponent.siblings[index];
+  } else {
+    currentSibling = currentComponent.siblings[index1];
+  }
+  populateDataFields(componentList);
+  if (currentSibling) {
+    const value = `${currentSibling.id}-${cleanupName(
+      componentList.find((v) => v.id === currentSibling.id).name
+    )}`;
+    $(`#siblings-dropdown option[value=${value}]`).prop("selected", true);
+  }
+  populateSiblingData(currentSibling);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -451,6 +566,12 @@ function populateDataFields(componentList) {
   $("#siblings-dropdown").empty();
   $("#subcomponents-dropdown").empty();
   $("#transformations-dropdown").empty();
+
+  // clear freaking everything, actually
+  clearComponentEntries();
+  clearSiblingEntries();
+  clearSubcomponentEntries();
+  clearTransformationEntries();
 
   if (componentList.length) {
     // create a new component list
@@ -821,15 +942,21 @@ function constructConnectionOptionsForId(id) {
 function clearComponentEntries() {}
 
 // clear all sibling entries
-function clearSiblingEntries() {}
+function clearSiblingEntries() {
+  $("#sibling-data select").empty();
+  $("#sibling-data .spectrum-entry").val("");
+}
 
 // clear all subcomonent entries
-function clearSubcomponentEntries() {}
+function clearSubcomponentEntries() {
+  $("#subcomponent-data select").empty();
+  $("#subcomponent-data .spectrum-entry").val("");
+}
 
 // clear all transformation entries
 function clearTransformationEntries() {
   $("#trans-type-entry").val("");
-  $("#trans-nature-dropdown option[value=Past]").prop("selected", true);
+  $("#trans-nature-dropdown").empty();
 }
 
 // calculate where the initial position of a grid box should be when it appears
@@ -932,7 +1059,7 @@ function dataHolisticCheck(componentList) {
   if (visitedList.length !== idList.length) {
     const unvisitedIds = idList.filter((v) => !visitedList.includes(v));
     console.log(
-      `Cannot remove subcomponent without disconnecting other components from the overall intelligence. If this subcomponent is removed, then from id 0, the following component ids would not be reachable: ${unvisitedIds}`
+      `Cannot remove this entry without disconnecting other components from the overall intelligence. If this entry is removed, then from id 0, the following component ids would not be reachable: ${unvisitedIds}`
     );
     return false;
   }
