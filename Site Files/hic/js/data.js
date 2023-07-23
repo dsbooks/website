@@ -485,23 +485,26 @@ function populateComponentData(comp) {
   $("#assimilated-count-entry").val(comp.assimilatedCount);
   $("#other-count-entry").val(comp.otherCount);
   if (sumCounts(comp) <= 1) {
-    $("#integration-row").hide();
     $("#shared-will-row").hide();
     $("#shared-knowledge-row").hide();
     $("#shared-personality-row").hide();
     $("#component-exchange-row").hide();
   } else {
-    $("#integration-row").show();
     $("#shared-will-row").show();
     $("#shared-knowledge-row").show();
     $("#shared-personality-row").show();
     $("#component-exchange-row").show();
-    $("#integration-entry").val(comp.integrationSpectrum);
     $("#shared-will-entry").val(comp.sharedWillDegree);
     $("#shared-knowledge-entry").val(comp.sharedKnowledgeDegree);
     $("#shared-personality-entry").val(comp.sharedPersonalityDegree);
     if (comp.componentExchangeAllowed)
       $("#component-exchange-box").prop("checked", true);
+  }
+  if (comp.components.length) {
+    $("#integration-row").show();
+    $("#integration-entry").val(comp.integrationSpectrum);
+  } else {
+    $("#integration-row").hide();
   }
   if (!structureIsFluid(comp.type)) {
     $("#fluid-range-row").hide();
