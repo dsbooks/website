@@ -32,12 +32,20 @@ $(() => {
   $("input[type='text']").keydown(function (e) {
     if (e.key === "Enter") $(this).blur();
   });
+  // trans events
   $("#trans-type-grid-button").click(toggleOneTypeGrid);
   $("#trans-nature-dropdown").change(changeTransformationNature);
+  // subcomponent events
   $("#sub-id-dropdown").change(changeSubcomponentId);
   $("#sub-nature-dropdown").change(changeSubcomponentNature);
-  $(".connection-dropdown").change(changeSubConnectionType);
+  $(".sub-data-row .connection-dropdown").change(changeSubConnectionType);
   $(".spectrum-entry").change(changeGenericSpectrumEntry);
+  // sibling events
+  $("#sib-id-dropdown").change(changeSiblingId);
+  $("#sib-assim-dir-dropdown").change(changeSiblingAssimilation);
+  $("#sib-xchng-dir-dropdown").change(changeSiblingExchange);
+  $(".sib-data-row .connection-dropdown").change(changeSibConnectionType);
+  $(".sib-spectrum-entry").change(changeSiblingSpectrumEntry);
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -131,6 +139,9 @@ function addTransformation() {
 
 // delete the currently selected transformation
 function deleteTransformation() {
+  // don't do anything if there aren't any transformations
+  if (!currentComponent.transformations.length) return;
+
   let index = currentComponent.transformations.indexOf(currentTransformation);
 
   currentComponent.transformations.splice(index, 1);
@@ -178,7 +189,7 @@ function selectSubcomponent() {
 
 // add a new, default subcomponent
 function addSubcomponent() {
-  // don't do anything if there isn't a component to add transformations to
+  // don't do anything if there isn't a component to add subcomponents to
   if (!currentComponent) return;
 
   // also return if every other component is already a subcomponent of this component
@@ -230,6 +241,9 @@ function addSubcomponent() {
 
 // delete the currently selected subcomponent
 function deleteSubcomponent() {
+  // don't do anything if there aren't any subcomponents
+  if (!currentComponent.components.length) return;
+
   let index = currentComponent.components.indexOf(currentSubcomponent);
 
   const backupSubList = currentComponent.components.map((v) => v);
@@ -312,7 +326,7 @@ function addSibling() {
   currentSibling =
     currentComponent.siblings[currentComponent.siblings.length - 1];
 
-  // create a new sibling for the sibling's component entry (since they have to matc)
+  // create a new sibling for the sibling's component entry (since they have to match)
   const fullSibling = componentList.find((v) => v.id === currentSibling.id);
   fullSibling.siblings.push(new Sibling(currentComponent.id));
 
@@ -324,6 +338,9 @@ function addSibling() {
 
 // delete the currently selected sibling
 function deleteSibling() {
+  // don't do anything if there aren't any siblings
+  if (!currentComponent.siblings.length) return;
+
   // first find the sibling's full component and the matching sibling entry for the sibling
   const fullCurrentSibling = componentList.find(
     (v) => v.id === currentSibling.id
@@ -535,6 +552,52 @@ function changeGenericSpectrumEntry() {
     currentSubcomponent.parentPersonalityDownDegree = value;
 }
 
+// change a sibling's id and make sure all data is properly maintained while doing so
+// TODO: handle this properly; it requires moving a sibling entry from one component to another in addition to updating the current sibling's id
+function changeSiblingId() {
+  // first change the id in memory and make a backup of the id
+  const id = $(this)
+    .find("option:selected")
+    .text()
+    .replace(/(^\d+)(.+$)/i, "$1");
+
+  // update the id and also swap sibling entries between components
+  const currentSibFull = componentList.find((v) => v.id === currentSibling.id);
+  const foundComponent = componentList.find((v) => v.id == id);
+  const tempSibEntry = currentSibFull.siblings.find(
+    (v) => v.id === currentComponent.id
+  );
+  const tempSibIndex = currentSibFull.siblings.indexOf(tempSibEntry);
+  currentSibFull.siblings.splice(tempSibIndex, 1);
+  foundComponent.siblings.push(tempSibEntry);
+  currentSibling.id = Number(id);
+
+  // then edit the label for the dropdown list
+  const currentId = $("#siblings-dropdown").find("option:selected").attr("id");
+
+  // maybe could have done this better but it works
+  const label = `${id}: ${foundComponent.name}`;
+  const value = `${id}-${cleanupName(foundComponent.name)}`;
+  $(`#${currentId}`)
+    .attr("value", value)
+    .attr("id", "sib-" + value)
+    .text(label);
+
+  handleSiblingSection();
+}
+
+// change a sibling's assimilation direction
+function changeSiblingAssimilation() {}
+
+// change a sibling's component exchange direction
+function changeSiblingExchange() {}
+
+// change a sibling's connection type
+function changeSibConnectionType() {}
+
+// change a sibling's spectrum entry
+function changeSiblingSpectrumEntry() {}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 // LOADING AND SAVING FUNCTIONS                                                          //
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -643,8 +706,14 @@ function populateSiblingData(sib) {
   const fullCurrentSibling = componentList.find((v) => v.id === sib.id);
 
   // need the id entry to be a dropdown list consisting of all valid (not-yet-used) components
-  const foundComponents = componentList.filter(
-    (v) => !currentComponent.siblings.find((sv) => sv.id === v.id)
+  const foundComponents = findValidSiblings(
+    componentList,
+    componentList.filter((v) => {
+      return (
+        !currentComponent.siblings.find((sv) => sv.id === v.id) &&
+        !(v.id === currentComponent.id)
+      );
+    })
   );
 
   // be sure to add the current sibling to the list
@@ -711,6 +780,7 @@ function populateSubcomponentData(sub) {
       );
     })
   );
+
   // be sure to add the current subcomponent to the list
   if (!foundComponents.includes(fullCurrentSubcomponent)) {
     foundComponents.unshift(fullCurrentSubcomponent);
@@ -943,20 +1013,17 @@ function clearComponentEntries() {}
 
 // clear all sibling entries
 function clearSiblingEntries() {
-  $("#sibling-data select").empty();
   $("#sibling-data .spectrum-entry").val("");
 }
 
 // clear all subcomonent entries
 function clearSubcomponentEntries() {
-  $("#subcomponent-data select").empty();
   $("#subcomponent-data .spectrum-entry").val("");
 }
 
 // clear all transformation entries
 function clearTransformationEntries() {
   $("#trans-type-entry").val("");
-  $("#trans-nature-dropdown").empty();
 }
 
 // calculate where the initial position of a grid box should be when it appears
@@ -971,19 +1038,53 @@ function calculateGridPosition(boxId, buttonId) {
   );
 }
 
-// search for valid subcomponents by checking for potential cycles;
+// search for valid subcomponents by checking for potential cycles and holistic breaks;
 // return all valid subcomponents found
 function findValidSubcomponents(componentList, checkComponentList) {
-  const validComponents = [];
-  for (let i = 0; i < checkComponentList.length; i++) {
-    if (
-      !testForCyclesTraversal(componentList, checkComponentList[i], [
-        checkComponentList[i].id,
-      ])
-    ) {
-      validComponents.push(checkComponentList[i]);
+  const possiblyValidComponents = [];
+
+  // first check for potentially introduced cycles
+  checkComponentList.forEach((v) => {
+    if (!testForCyclesTraversal(componentList, v, [v.id])) {
+      possiblyValidComponents.push(v);
     }
-  }
+  });
+
+  const validComponents = [];
+
+  // then check for any potential holistic breaks
+  possiblyValidComponents.forEach((v) => {
+    if (
+      holisticCheckSubSubstitution(componentList, currentSubcomponent, v.id)
+    ) {
+      validComponents.push(v);
+    }
+  });
+
+  return validComponents;
+}
+
+// search for valid siblings by checking for potential holistic breaks;
+// return all valid siblings found
+function findValidSiblings(componentList, checkComponentList) {
+  const validComponents = [];
+
+  // then check for any potential holistic breaks
+  checkComponentList.forEach((v) => {
+    const currentSibFull = componentList.find(
+      (c) => c.id === currentSibling.id
+    );
+    if (
+      holisticCheckSibSubstitution(
+        componentList,
+        currentSibling,
+        currentSibFull,
+        v
+      )
+    ) {
+      validComponents.push(v);
+    }
+  });
 
   return validComponents;
 }
@@ -1002,7 +1103,7 @@ function testForCyclesTraversal(componentList, component, path) {
     );
     if (path.includes(nextComponent.id)) {
       return true;
-    } else if (!testForCyclesTraversal(componentList, nextComponent, newPath)) {
+    } else if (testForCyclesTraversal(componentList, nextComponent, newPath)) {
       return true;
     }
   }
@@ -1064,4 +1165,75 @@ function dataHolisticCheck(componentList) {
     return false;
   }
   return true;
+}
+
+// Verify that all components will be interconnected in some way after switching subcomponents
+function holisticCheckSubSubstitution(
+  componentList,
+  currentSub,
+  potentialSubId
+) {
+  // get a list of all ids
+  const idList = componentList.map((v) => v.id);
+  let backupId;
+
+  // backup the current id of the current subcomponent
+  if (currentSub) {
+    backupId = currentSub.id;
+    currentSub.id = potentialSubId;
+  }
+
+  // perform the traversal;
+  // where the start happens is irrelevant, so just start from the first component in the list
+  const visitedList = holisticTraverse(
+    componentList,
+    componentList[0],
+    idList,
+    []
+  );
+
+  // reset the id
+  if (currentSub) {
+    currentSub.id = backupId;
+  }
+  // compare the full list of ids to the largest connected list of components
+  return visitedList.length === idList.length;
+}
+
+// Verify that all components will be interconnected in some way after switching siblings
+function holisticCheckSibSubstitution(
+  componentList,
+  currentSib,
+  currentSibFull,
+  potentialSibFull
+) {
+  // get a list of all ids
+  const idList = componentList.map((v) => v.id);
+
+  // update the id and also swap sibling entries between components
+  console.log(currentComponent, currentSibFull);
+  const tempSibEntry = currentSibFull.siblings.find(
+    (v) => v.id === currentComponent.id
+  );
+  const tempSibIndex = currentSibFull.siblings.indexOf(tempSibEntry);
+  currentSibFull.siblings.splice(tempSibIndex, 1);
+  potentialSibFull.siblings.push(tempSibEntry);
+  currentSib.id = potentialSibFull.id;
+
+  // perform the traversal;
+  // where the start happens is irrelevant, so just start from the first component in the list
+  const visitedList = holisticTraverse(
+    componentList,
+    componentList[0],
+    idList,
+    []
+  );
+
+  // reset the id and sibling entries
+  currentSibFull.siblings.splice(tempSibIndex, 0, tempSibEntry);
+  potentialSibFull.siblings.pop();
+  currentSib.id = currentSibFull.id;
+
+  // compare the full list of ids to the largest connected list of components
+  return visitedList.length === idList.length;
 }

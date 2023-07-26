@@ -22,7 +22,25 @@
         "transformationNature": "future"
       }
     ],
-    "siblings": [],
+    "siblings": [
+      {
+        "id": 10,
+        "siblingAssimilationDirection": "up",
+        "siblingComponentExchangeDirection": "none",
+        "siblingWillUpConnection": "none",
+        "siblingWillDownConnection": "open",
+        "siblingWillUpDegree": 0,
+        "siblingWillDownDegree": 1,
+        "siblingKnowledgeUpConnection": "open",
+        "siblingKnowledgeDownConnection": "open",
+        "siblingKnowledgeUpDegree": 0.9,
+        "siblingKnowledgeDownDegree": 0.9,
+        "siblingPersonalityUpConnection": "none",
+        "siblingPersonalityDownConnection": "none",
+        "siblingPersonalityUpDegree": 0,
+        "siblingPersonalityDownDegree": 0
+      }
+    ],
     "components": [
       {
         "id": 1,
@@ -821,6 +839,44 @@
         "siblingWillUpConnection": "none",
         "siblingWillDownConnection": "none",
         "siblingWillUpDegree": 0,
+        "siblingWillDownDegree": 0,
+        "siblingKnowledgeUpConnection": "open",
+        "siblingKnowledgeDownConnection": "open",
+        "siblingKnowledgeUpDegree": 0.9,
+        "siblingKnowledgeDownDegree": 0.9,
+        "siblingPersonalityUpConnection": "none",
+        "siblingPersonalityDownConnection": "none",
+        "siblingPersonalityUpDegree": 0,
+        "siblingPersonalityDownDegree": 0
+      }
+    ],
+    "components": []
+  },
+  {
+    "id": 10,
+    "name": "Test",
+    "type": ["1b", "1c", "1d", "2a", "4a", "4c"],
+    "groupSummary": true,
+    "componentIdentity": 0.99,
+    "collectiveIdentity": 0.05,
+    "originalCount": 0,
+    "assimilatedCount": 480000,
+    "generatedCount": 3000,
+    "otherCount": 0,
+    "sharedWillDegree": 0.1,
+    "sharedKnowledgeDegree": 0.9,
+    "sharedPersonalityDegree": 0,
+    "integrationSpectrum": 0.01,
+    "componentExchangeAllowed": true,
+    "transformations": [],
+    "siblings": [
+      {
+        "id": 0,
+        "siblingAssimilationDirection": "down",
+        "siblingComponentExchangeDirection": "none",
+        "siblingWillUpConnection": "open",
+        "siblingWillDownConnection": "none",
+        "siblingWillUpDegree": 1,
         "siblingWillDownDegree": 0,
         "siblingKnowledgeUpConnection": "open",
         "siblingKnowledgeDownConnection": "open",
