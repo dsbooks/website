@@ -553,9 +553,7 @@ function changeGenericSpectrumEntry() {
 }
 
 // change a sibling's id and make sure all data is properly maintained while doing so
-// TODO: handle this properly; it requires moving a sibling entry from one component to another in addition to updating the current sibling's id
 function changeSiblingId() {
-  // first change the id in memory and make a backup of the id
   const id = $(this)
     .find("option:selected")
     .text()
@@ -587,16 +585,110 @@ function changeSiblingId() {
 }
 
 // change a sibling's assimilation direction
-function changeSiblingAssimilation() {}
+function changeSiblingAssimilation() {
+  const val = $(this).find("option:selected").text().toLowerCase();
+  const mirror = val === "up" ? "down" : val === "down" ? "up" : val;
+
+  const currentSibFull = componentList.find((v) => v.id === currentSibling.id);
+  const mirrorSib = currentSibFull.siblings.find(
+    (v) => v.id === currentComponent.id
+  );
+
+  currentSibling.siblingAssimilationDirection = val;
+  mirrorSib.siblingAssimilationDirection = mirror;
+}
 
 // change a sibling's component exchange direction
-function changeSiblingExchange() {}
+function changeSiblingExchange() {
+  const val = $(this).find("option:selected").text().toLowerCase();
+  const mirror = val === "up" ? "down" : val === "down" ? "up" : val;
+
+  const currentSibFull = componentList.find((v) => v.id === currentSibling.id);
+  const mirrorSib = currentSibFull.siblings.find(
+    (v) => v.id === currentComponent.id
+  );
+
+  currentSibling.siblingComponentExchangeDirection = val;
+  mirrorSib.siblingComponentExchangeDirection = mirror;
+}
 
 // change a sibling's connection type
-function changeSibConnectionType() {}
+function changeSibConnectionType() {
+  const elementId = $(this).attr("id");
+  const conType = getConType($(this).find("option:selected").text().trim());
+  const mirrorType =
+    conType === "on-demand-d"
+      ? "on-demand-u"
+      : conType === "on-demand-u"
+      ? "on-demand-d"
+      : conType;
+  const currentSibFull = componentList.find((v) => v.id === currentSibling.id);
+  const mirrorSib = currentSibFull.siblings.find(
+    (v) => v.id === currentComponent.id
+  );
+
+  if (elementId === "sib-wup-con-dropdown") {
+    currentSibling.siblingWillUpConnection = conType;
+    mirrorSib.siblingWillDownConnection = mirrorType;
+  }
+  if (elementId === "sib-wdown-con-dropdown") {
+    currentSibling.siblingWillDownConnection = conType;
+    mirrorSib.siblingWillUpConnection = mirrorType;
+  }
+  if (elementId === "sib-kup-con-dropdown") {
+    currentSibling.siblingKnowledgeUpConnection = conType;
+    mirrorSib.siblingKnowledgeDownConnection = mirrorType;
+  }
+  if (elementId === "sib-kdown-con-dropdown") {
+    currentSibling.siblingKnowledgeDownConnection = conType;
+    mirrorSib.siblingKnowledgeUpConnection = mirrorType;
+  }
+  if (elementId === "sib-pup-con-dropdown") {
+    currentSibling.siblingPersonalityUpConnection = conType;
+    mirrorSib.siblingPersonalityDownConnection = mirrorType;
+  }
+  if (elementId === "sib-pdown-con-dropdown") {
+    currentSibling.siblingPersonalityDownConnection = conType;
+    mirrorSib.siblingPersonalityUpConnection = mirrorType;
+  }
+}
 
 // change a sibling's spectrum entry
-function changeSiblingSpectrumEntry() {}
+function changeSiblingSpectrumEntry() {
+  const elementId = $(this).attr("id");
+  const value = Math.max(0, Math.min(1, Number($(this).val())));
+  const currentSibFull = componentList.find((v) => v.id === currentSibling.id);
+  const mirrorSib = currentSibFull.siblings.find(
+    (v) => v.id === currentComponent.id
+  );
+
+  $(this).val(value);
+
+  if (elementId === "sib-wup-degree-entry") {
+    currentSibling.siblingWillUpDegree = value;
+    mirrorSib.siblingWillDownDegree = value;
+  }
+  if (elementId === "sib-wdown-degree-entry") {
+    currentSibling.siblingWillDownDegree = value;
+    mirrorSib.siblingWillUpDegree = value;
+  }
+  if (elementId === "sib-kup-degree-entry") {
+    currentSibling.siblingKnowledgeUpDegree = value;
+    mirrorSib.siblingKnowledgeDownDegree = value;
+  }
+  if (elementId === "sib-kdown-degree-entry") {
+    currentSibling.siblingKnowledgeDownDegree = value;
+    mirrorSib.siblingKnowledgeUpDegree = value;
+  }
+  if (elementId === "sib-pup-degree-entry") {
+    currentSibling.siblingPersonalityUpDegree = value;
+    mirrorSib.siblingPersonalityDownDegree = value;
+  }
+  if (elementId === "sib-pdown-degree-entry") {
+    currentSibling.siblingPersonalityDownDegree = value;
+    mirrorSib.siblingPersonalityUpDegree = value;
+  }
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // LOADING AND SAVING FUNCTIONS                                                          //
@@ -1211,7 +1303,6 @@ function holisticCheckSibSubstitution(
   const idList = componentList.map((v) => v.id);
 
   // update the id and also swap sibling entries between components
-  console.log(currentComponent, currentSibFull);
   const tempSibEntry = currentSibFull.siblings.find(
     (v) => v.id === currentComponent.id
   );
