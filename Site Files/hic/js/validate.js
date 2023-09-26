@@ -73,22 +73,45 @@ function componentValueCheck(component) {
     return false;
   }
 
-  if (!validateType(component, "type")) return false;
-  if (!validateFluidRange(component, "fluidRange")) return false;
-  if (!validateIntegrationSpectrum(component, "integrationSpectrum"))
+  if (!validateType(component, "type")) {
     return false;
-  if (!validateIdentity(component, "componentIdentity")) return false;
-  if (!validateIdentity(component, "collectiveIdentity")) return false;
-  if (!validateComponentExchangeAllowed(component, "componentExchangeAllowed"))
+  }
+  if (!validateFluidRange(component, "fluidRange")) {
     return false;
+  }
+  if (!validateIntegrationSpectrum(component, "integrationSpectrum")) {
+    return false;
+  }
+  if (!validateIdentity(component, "componentIdentity")) {
+    return false;
+  }
+  if (!validateIdentity(component, "collectiveIdentity")) {
+    return false;
+  }
+  if (
+    !validateComponentExchangeAllowed(component, "componentExchangeAllowed")
+  ) {
+    return false;
+  }
 
-  if (!validateDegree(component, "sharedWillDegree")) return false;
-  if (!validateDegree(component, "sharedKnowledgeDegree")) return false;
-  if (!validateDegree(component, "sharedPersonalityDegree")) return false;
-  if (!validatePotentialTransformations(component, "transformations"))
+  if (!validateDegree(component, "sharedWillDegree")) {
     return false;
-  if (!validateSiblings(component, "siblings")) return false;
-  if (!validateSubcomponents(component, "components")) return false;
+  }
+  if (!validateDegree(component, "sharedKnowledgeDegree")) {
+    return false;
+  }
+  if (!validateDegree(component, "sharedPersonalityDegree")) {
+    return false;
+  }
+  if (!validatePotentialTransformations(component, "transformations")) {
+    return false;
+  }
+  if (!validateSiblings(component, "siblings")) {
+    return false;
+  }
+  if (!validateSubcomponents(component, "components")) {
+    return false;
+  }
 
   return true;
 }
@@ -116,8 +139,11 @@ function consistencyCheck(componentList) {
       let sibPerspective = sibling.siblings.find((v) => v.id === component.id);
 
       // finally, compare the two views to make sure they are symmetrical
-      if (!compareSiblings(component, sibling, compPerspective, sibPerspective))
+      if (
+        !compareSiblings(component, sibling, compPerspective, sibPerspective)
+      ) {
         return false;
+      }
     }
   }
   return true;
@@ -378,8 +404,9 @@ function validateIds(componentList) {
     if (Array.isArray(componentList[i].siblings)) {
       if (
         !validateSubIds(componentList[i], componentList[i].siblings, "siblings")
-      )
+      ) {
         return false;
+      }
     }
     if (Array.isArray(componentList[i].components)) {
       if (
@@ -388,8 +415,9 @@ function validateIds(componentList) {
           componentList[i].components,
           "components"
         )
-      )
+      ) {
         return false;
+      }
     }
   }
   // then check for duplicate ids
@@ -412,16 +440,18 @@ function validateIds(componentList) {
         validIds,
         componentList[i].siblings
       )
-    )
+    ) {
       return false;
+    }
     if (
       !validateSubIdReferences(
         componentList[i],
         validIds,
         componentList[i].components
       )
-    )
+    ) {
       return false;
+    }
   }
 
   return true;
@@ -470,28 +500,36 @@ function validateSiblings(component, key) {
       return false;
     }
     // validate all connection types next
-    if (!validateConnection(component, sibling, "siblingWillUpConnection"))
+    if (!validateConnection(component, sibling, "siblingWillUpConnection")) {
       return false;
-    if (!validateConnection(component, sibling, "siblingWillDownConnection"))
+    }
+    if (!validateConnection(component, sibling, "siblingWillDownConnection")) {
       return false;
-    if (!validateConnection(component, sibling, "siblingKnowledgeUpConnection"))
+    }
+    if (
+      !validateConnection(component, sibling, "siblingKnowledgeUpConnection")
+    ) {
       return false;
+    }
     if (
       !validateConnection(component, sibling, "siblingKnowledgeDownConnection")
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnection(component, sibling, "siblingPersonalityUpConnection")
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnection(
         component,
         sibling,
         "siblingPersonalityDownConnection"
       )
-    )
+    ) {
       return false;
+    }
     // validate all connection degrees last
     if (
       !validateConnectionDegree(
@@ -500,8 +538,9 @@ function validateSiblings(component, key) {
         "siblingWillUpDegree",
         "siblingWillUpConnection"
       )
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnectionDegree(
         component,
@@ -509,8 +548,9 @@ function validateSiblings(component, key) {
         "siblingWillDownDegree",
         "siblingWillDownConnection"
       )
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnectionDegree(
         component,
@@ -518,8 +558,9 @@ function validateSiblings(component, key) {
         "siblingKnowledgeUpDegree",
         "siblingKnowledgeUpConnection"
       )
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnectionDegree(
         component,
@@ -527,8 +568,9 @@ function validateSiblings(component, key) {
         "siblingKnowledgeDownDegree",
         "siblingKnowledgeDownConnection"
       )
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnectionDegree(
         component,
@@ -536,8 +578,9 @@ function validateSiblings(component, key) {
         "siblingPersonalityUpDegree",
         "siblingPersonalityUpConnection"
       )
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnectionDegree(
         component,
@@ -545,8 +588,9 @@ function validateSiblings(component, key) {
         "siblingPersonalityDownDegree",
         "siblingPersonalityDownConnection"
       )
-    )
+    ) {
       return false;
+    }
   }
   return true;
 }
@@ -563,24 +607,32 @@ function validateSubcomponents(component, key) {
       return false;
     }
     // validate all connection types next
-    if (!validateConnection(component, subComp, "parentWillUpConnection"))
+    if (!validateConnection(component, subComp, "parentWillUpConnection")) {
       return false;
-    if (!validateConnection(component, subComp, "parentWillDownConnection"))
+    }
+    if (!validateConnection(component, subComp, "parentWillDownConnection")) {
       return false;
-    if (!validateConnection(component, subComp, "parentKnowledgeUpConnection"))
+    }
+    if (
+      !validateConnection(component, subComp, "parentKnowledgeUpConnection")
+    ) {
       return false;
+    }
     if (
       !validateConnection(component, subComp, "parentKnowledgeDownConnection")
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnection(component, subComp, "parentPersonalityUpConnection")
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnection(component, subComp, "parentPersonalityDownConnection")
-    )
+    ) {
       return false;
+    }
     // validate all connection degrees last
     if (
       !validateConnectionDegree(
@@ -589,8 +641,9 @@ function validateSubcomponents(component, key) {
         "parentWillUpDegree",
         "parentWillUpConnection"
       )
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnectionDegree(
         component,
@@ -598,8 +651,9 @@ function validateSubcomponents(component, key) {
         "parentWillDownDegree",
         "parentWillDownConnection"
       )
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnectionDegree(
         component,
@@ -607,8 +661,9 @@ function validateSubcomponents(component, key) {
         "parentKnowledgeUpDegree",
         "parentKnowledgeUpConnection"
       )
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnectionDegree(
         component,
@@ -616,8 +671,9 @@ function validateSubcomponents(component, key) {
         "parentKnowledgeDownDegree",
         "parentKnowledgeDownConnection"
       )
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnectionDegree(
         component,
@@ -625,8 +681,9 @@ function validateSubcomponents(component, key) {
         "parentPersonalityUpDegree",
         "parentPersonalityUpConnection"
       )
-    )
+    ) {
       return false;
+    }
     if (
       !validateConnectionDegree(
         component,
@@ -634,8 +691,9 @@ function validateSubcomponents(component, key) {
         "parentPersonalityDownDegree",
         "parentPersonalityDownConnection"
       )
-    )
+    ) {
       return false;
+    }
   }
   return true;
 }
@@ -656,8 +714,9 @@ function compareSiblings(a, b, aView, bView) {
       bView,
       "siblingAssimilationDirection"
     )
-  )
+  ) {
     return false;
+  }
   if (
     !compareTransferDirections(
       a,
@@ -666,8 +725,9 @@ function compareSiblings(a, b, aView, bView) {
       bView,
       "siblingComponentExchangeDirection"
     )
-  )
+  ) {
     return false;
+  }
 
   // next compare connection types
   if (
@@ -679,8 +739,9 @@ function compareSiblings(a, b, aView, bView) {
       "siblingWillUpConnection",
       "siblingWillDownConnection"
     )
-  )
+  ) {
     return false;
+  }
   if (
     !compareConnectionTypes(
       a,
@@ -690,8 +751,9 @@ function compareSiblings(a, b, aView, bView) {
       "siblingKnowledgeUpConnection",
       "siblingKnowledgeDownConnection"
     )
-  )
+  ) {
     return false;
+  }
   if (
     !compareConnectionTypes(
       a,
@@ -701,8 +763,9 @@ function compareSiblings(a, b, aView, bView) {
       "siblingPersonalityUpConnection",
       "siblingPersonalityDownConnection"
     )
-  )
+  ) {
     return false;
+  }
   // compare connection degrees
   if (
     !compareConnectionDegrees(
@@ -713,8 +776,9 @@ function compareSiblings(a, b, aView, bView) {
       "siblingWillUpDegree",
       "siblingWillDownDegree"
     )
-  )
+  ) {
     return false;
+  }
   if (
     !compareConnectionDegrees(
       a,
@@ -724,8 +788,9 @@ function compareSiblings(a, b, aView, bView) {
       "siblingKnowledgeUpDegree",
       "siblingKnowledgeDownDegree"
     )
-  )
+  ) {
     return false;
+  }
   if (
     !compareConnectionDegrees(
       a,
@@ -735,8 +800,9 @@ function compareSiblings(a, b, aView, bView) {
       "siblingPersonalityUpDegree",
       "siblingPersonalityDownDegree"
     )
-  )
+  ) {
     return false;
+  }
 
   return true;
 }
@@ -748,8 +814,9 @@ function compareTransferDirections(a, b, aView, bView, transferKey) {
     (aView[transferKey] === "open" && bView[transferKey] === "open") ||
     (aView[transferKey] === "up" && bView[transferKey] === "down") ||
     (aView[transferKey] === "down" && bView[transferKey] === "up")
-  )
+  ) {
     return true;
+  }
 
   console.log(
     `Component id ${a.id} and component id ${b.id} have inconsistent ${transferKey} values of ${aView[transferKey]} and ${bView[transferKey]} respectively.\nEither both must be "none", both must be "open", or one must be "up" and the other "down".`
@@ -765,8 +832,9 @@ function compareConnectionTypes(a, b, aView, bView, conKey1, conKey2) {
     (aView[conKey1] === "on-demand" && bView[conKey2] === "on-demand") ||
     (aView[conKey1] === "on-demand-d" && bView[conKey2] === "on-demand-u") ||
     (aView[conKey1] === "on-demand-u" && bView[conKey2] === "on-demand-d")
-  )
+  ) {
     return true;
+  }
 
   console.log(
     `Component id ${a.id} and component id ${b.id} have inconsistent ${conKey1} and ${conKey2} values of ${aView[conKey1]} and ${bView[conKey2]} respectively.\nEither both must be "none", both must be "open", both must be "on-demand", or one must be "on-demand-d" and the other "on-demand-u".`
@@ -776,7 +844,9 @@ function compareConnectionTypes(a, b, aView, bView, conKey1, conKey2) {
 
 // compare connection degrees between siblings
 function compareConnectionDegrees(a, b, aView, bView, conKey1, conKey2) {
-  if (aView[conKey1] === bView[conKey2]) return true;
+  if (aView[conKey1] === bView[conKey2]) {
+    return true;
+  }
 
   console.log(
     `Component id ${a.id} and component id ${b.id} have inconsistent ${conKey1} and ${conKey2} values of ${aView[conKey1]} and ${bView[conKey2]} respectively.\nThese two values must be identical.`

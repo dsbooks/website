@@ -30,7 +30,9 @@ $(() => {
   // register editing events (the toggle buttons are technically not editing, but whatevs)
   // registration of events for the grid buttons are handled in the grid html files
   $("input[type='text']").keydown(function (e) {
-    if (e.key === "Enter") $(this).blur();
+    if (e.key === "Enter") {
+      $(this).blur();
+    }
   });
   // trans events
   $("#trans-type-grid-button").click(toggleOneTypeGrid);
@@ -46,6 +48,8 @@ $(() => {
   $("#sib-xchng-dir-dropdown").change(changeSiblingExchange);
   $(".sib-data-row .connection-dropdown").change(changeSibConnectionType);
   $(".sib-spectrum-entry").change(changeSiblingSpectrumEntry);
+  // component events
+  $("#fluid-grid-button").click(toggleFluidTypeGrid);
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -55,10 +59,18 @@ $(() => {
 // collapse or uncollapse a data section
 function toggleDataSection() {
   const id = $(this).attr("id");
-  if (id === "component-collapse") $("#component-data").toggle();
-  if (id === "sibling-collapse") $("#sibling-data").toggle();
-  if (id === "subcomponent-collapse") $("#subcomponent-data").toggle();
-  if (id === "transformation-collapse") $("#transformation-data").toggle();
+  if (id === "component-collapse") {
+    $("#component-data").toggle();
+  }
+  if (id === "sibling-collapse") {
+    $("#sibling-data").toggle();
+  }
+  if (id === "subcomponent-collapse") {
+    $("#subcomponent-data").toggle();
+  }
+  if (id === "transformation-collapse") {
+    $("#transformation-data").toggle();
+  }
 }
 
 // select a component when clicked on and repopulate data fields based on this component
@@ -70,7 +82,9 @@ function selectComponent() {
 
   const found = componentList.find((v) => v.id == id);
 
-  if (found === currentComponent) return;
+  if (found === currentComponent) {
+    return;
+  }
   currentComponent = found;
   currentSubcomponent = null;
   currentSibling = null;
@@ -113,7 +127,9 @@ function selectTransformation() {
 // add a new, default-valued transformation
 function addTransformation() {
   // don't do anything if there isn't a component to add transformations to
-  if (!currentComponent) return;
+  if (!currentComponent) {
+    return;
+  }
 
   $("#transformation-data :input").prop("disabled", false);
   const label = `${currentComponent.transformations.length}: Past 1a`;
@@ -140,7 +156,9 @@ function addTransformation() {
 // delete the currently selected transformation
 function deleteTransformation() {
   // don't do anything if there aren't any transformations
-  if (!currentComponent.transformations.length) return;
+  if (!currentComponent.transformations.length) {
+    return;
+  }
 
   let index = currentComponent.transformations.indexOf(currentTransformation);
 
@@ -190,7 +208,9 @@ function selectSubcomponent() {
 // add a new, default subcomponent
 function addSubcomponent() {
   // don't do anything if there isn't a component to add subcomponents to
-  if (!currentComponent) return;
+  if (!currentComponent) {
+    return;
+  }
 
   // also return if every other component is already a subcomponent of this component
   if (currentComponent.components.length === componentList.length - 1) {
@@ -242,7 +262,9 @@ function addSubcomponent() {
 // delete the currently selected subcomponent
 function deleteSubcomponent() {
   // don't do anything if there aren't any subcomponents
-  if (!currentComponent.components.length) return;
+  if (!currentComponent.components.length) {
+    return;
+  }
 
   let index = currentComponent.components.indexOf(currentSubcomponent);
 
@@ -297,7 +319,9 @@ function selectSibling() {
 // add a new, default sibling
 function addSibling() {
   // don't do anything if there isn't a component to add transformations to
-  if (!currentComponent) return;
+  if (!currentComponent) {
+    return;
+  }
   // also return if every other component is already a sibling of this component
   if (currentComponent.siblings.length === componentList.length - 1) {
     console.log("There are no components that are not already siblings.");
@@ -339,7 +363,9 @@ function addSibling() {
 // delete the currently selected sibling
 function deleteSibling() {
   // don't do anything if there aren't any siblings
-  if (!currentComponent.siblings.length) return;
+  if (!currentComponent.siblings.length) {
+    return;
+  }
 
   // first find the sibling's full component and the matching sibling entry for the sibling
   const fullCurrentSibling = componentList.find(
@@ -409,6 +435,11 @@ function toggleOneTypeGrid() {
       "#trans-type-grid-button"
     );
     $("#one-type-grid-box").css("top", top);
+    $("#one-type-grid-box input").prop("checked", false);
+    $(`#one-type-${$("#trans-type-entry").val().replace(/['"]+/g, "")}`).prop(
+      "checked",
+      true
+    );
   }
 }
 
@@ -502,18 +533,24 @@ function changeSubcomponentNature() {
 function changeSubConnectionType() {
   const elementId = $(this).attr("id");
   const conType = getConType($(this).find("option:selected").text().trim());
-  if (elementId === "sub-wup-con-dropdown")
+  if (elementId === "sub-wup-con-dropdown") {
     currentSubcomponent.parentWillUpConnection = conType;
-  if (elementId === "sub-wdown-con-dropdown")
+  }
+  if (elementId === "sub-wdown-con-dropdown") {
     currentSubcomponent.parentWillDownConnection = conType;
-  if (elementId === "sub-kup-con-dropdown")
+  }
+  if (elementId === "sub-kup-con-dropdown") {
     currentSubcomponent.parentKnowledgeUpConnection = conType;
-  if (elementId === "sub-kdown-con-dropdown")
+  }
+  if (elementId === "sub-kdown-con-dropdown") {
     currentSubcomponent.parentKnowledgeDownConnection = conType;
-  if (elementId === "sub-pup-con-dropdown")
+  }
+  if (elementId === "sub-pup-con-dropdown") {
     currentSubcomponent.parentPersonalityUpConnection = conType;
-  if (elementId === "sub-pdown-con-dropdown")
+  }
+  if (elementId === "sub-pdown-con-dropdown") {
     currentSubcomponent.parentPersonalityDownConnection = conType;
+  }
 }
 
 // change any non-sibling spectrum entry
@@ -524,32 +561,44 @@ function changeGenericSpectrumEntry() {
   $(this).val(value);
 
   // handle component spectrum entry changes first
-  if (elementId === "component-identity-entry")
+  if (elementId === "component-identity-entry") {
     currentComponent.componentIdentity = value;
-  if (elementId === "collective-identity-entry")
+  }
+  if (elementId === "collective-identity-entry") {
     currentComponent.collectiveIdentity = value;
-  if (elementId === "integration-entry")
+  }
+  if (elementId === "integration-entry") {
     currentComponent.integrationSpectrum = value;
-  if (elementId === "shared-will-entry")
+  }
+  if (elementId === "shared-will-entry") {
     currentComponent.sharedWillDegree = value;
-  if (elementId === "component-knowledge-entry")
+  }
+  if (elementId === "component-knowledge-entry") {
     currentComponent.sharedKnowledgeDegree = value;
-  if (elementId === "component-personality-entry")
+  }
+  if (elementId === "component-personality-entry") {
     currentComponent.sharedPersonalityDegree = value;
+  }
 
   // handle subcomponent spectrum entry changes next
-  if (elementId === "sub-wup-degree-entry")
+  if (elementId === "sub-wup-degree-entry") {
     currentSubcomponent.parentWillUpDegree = value;
-  if (elementId === "sub-wdown-degree-entry")
+  }
+  if (elementId === "sub-wdown-degree-entry") {
     currentSubcomponent.parentWillDownDegree = value;
-  if (elementId === "sub-kup-degree-entry")
+  }
+  if (elementId === "sub-kup-degree-entry") {
     currentSubcomponent.parentKnowledgeUpDegree = value;
-  if (elementId === "sub-kdown-degree-entry")
+  }
+  if (elementId === "sub-kdown-degree-entry") {
     currentSubcomponent.parentKnowledgeDownDegree = value;
-  if (elementId === "sub-pup-degree-entry")
+  }
+  if (elementId === "sub-pup-degree-entry") {
     currentSubcomponent.parentPersonalityUpDegree = value;
-  if (elementId === "sub-pdown-degree-entry")
+  }
+  if (elementId === "sub-pdown-degree-entry") {
     currentSubcomponent.parentPersonalityDownDegree = value;
+  }
 }
 
 // change a sibling's id and make sure all data is properly maintained while doing so
@@ -690,6 +739,50 @@ function changeSiblingSpectrumEntry() {
   }
 }
 
+// toggle the fluid type grid on and off, and close other grids if they are open
+function toggleFluidTypeGrid() {
+  $("#comp-type-grid").hide();
+  $("#one-type-grid").hide();
+  if ($("#fluid-type-grid").is(":visible")) {
+    $("#fluid-type-grid").hide();
+  } else {
+    $("#fluid-type-grid").show();
+    let top = calculateGridPosition(
+      "#fluid-type-grid-box",
+      "#fluid-grid-button"
+    );
+    $("#fluid-type-grid-box").css("top", top);
+    $("#fluid-type-grid-box input").prop("checked", false);
+    const range = $("#fluid-range-entry")
+      .val()
+      .replace(/['"\[\]]+/g, "")
+      .split(",");
+    range.forEach((type) => {
+      $(`#fluid-type-${type}`).prop("checked", true);
+    });
+  }
+}
+
+// handle changing the type of a fluid range
+function handleFluidTypeChange() {
+  const id = $(this).attr("id");
+  const range = $("#fluid-range-entry")
+    .val()
+    .replace(/['"\[\]]+/g, "")
+    .split(",");
+  // update the value
+  const val = id.slice(id.lastIndexOf("-") + 1);
+  const index = range.indexOf(val);
+  if (index >= 0) {
+    range.splice(index, 1);
+  } else {
+    range.push(val);
+  }
+  range.sort();
+  $("#fluid-range-entry").val(JSON.stringify(range));
+  currentComponent.fluidRange = range;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 // LOADING AND SAVING FUNCTIONS                                                          //
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -751,8 +844,12 @@ function populateDataFields(componentList) {
 
 // populate all data fields for a specific component
 function populateComponentData(comp) {
-  if (comp.name) $("#name-entry").val(comp.name);
-  if (comp.groupSummary) $("#group-summary-box").prop("checked", true);
+  if (comp.name) {
+    $("#name-entry").val(comp.name);
+  }
+  if (comp.groupSummary) {
+    $("#group-summary-box").prop("checked", true);
+  }
   $("#type-entry").val(JSON.stringify(comp.type));
   $("#component-identity-entry").val(comp.componentIdentity);
   $("#collective-identity-entry").val(comp.collectiveIdentity);
@@ -773,8 +870,9 @@ function populateComponentData(comp) {
     $("#shared-will-entry").val(comp.sharedWillDegree);
     $("#shared-knowledge-entry").val(comp.sharedKnowledgeDegree);
     $("#shared-personality-entry").val(comp.sharedPersonalityDegree);
-    if (comp.componentExchangeAllowed)
+    if (comp.componentExchangeAllowed) {
       $("#component-exchange-box").prop("checked", true);
+    }
   }
   if (comp.components.length) {
     $("#integration-row").show();
@@ -1205,27 +1303,43 @@ function testForCyclesTraversal(componentList, component, path) {
 
 // return the value of a connection dropdown option given the stored data value
 function getConnDropdownValue(connection) {
-  if (connection === "on-demand") return "On-Demand";
-  if (connection === "on-demand-u") return "On-Demand-Up";
-  if (connection === "on-demand-d") return "On-Demand-Down";
+  if (connection === "on-demand") {
+    return "On-Demand";
+  }
+  if (connection === "on-demand-u") {
+    return "On-Demand-Up";
+  }
+  if (connection === "on-demand-d") {
+    return "On-Demand-Down";
+  }
   return capitalize(connection);
 }
 
 // return the value of a connection dropdown option given the stored data value
 function getStructureNatureDropdownValue(nature) {
-  if (nature === "effectively permanent") return "Effectively-Permanent";
-  if (nature === "semi-permanent") return "Semi-Permanent";
-  if (nature === "effectively semi-permanent")
+  if (nature === "effectively permanent") {
+    return "Effectively-Permanent";
+  }
+  if (nature === "semi-permanent") {
+    return "Semi-Permanent";
+  }
+  if (nature === "effectively semi-permanent") {
     return "Effectively-Semi-Permanent";
+  }
   return capitalize(nature);
 }
 
 // get a structure value into a valid structure nature string
 function getStructureNature(nature) {
-  if (nature === "Effectively Permanent") return "effectively permanent";
-  if (nature === "Semi-Permanent") return "semi-permanent";
-  if (nature === "Effectively Semi-Permanent")
+  if (nature === "Effectively Permanent") {
+    return "effectively permanent";
+  }
+  if (nature === "Semi-Permanent") {
+    return "semi-permanent";
+  }
+  if (nature === "Effectively Semi-Permanent") {
     return "effectively semi-permanent";
+  }
   return nature.toLowerCase();
 }
 
